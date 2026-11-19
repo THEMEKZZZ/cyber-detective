@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CYBER DETECTIVE — Every house has a secret</title>
+<meta name="description" content="Cyber Detective — เกมสยองขวัญจิตวิทยาแนวสืบสวนไซเบอร์ โดย Khanchana Pudpuak (นายครรชนะ ผุดเผือก)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ---------- design system ---------- */
+:root{
+  --black:#080A09;--bg:#101211;--surf:#191D1B;--surf2:#1f2421;
+  --txt:#E8EAE5;--mut:#A0A69F;--mut2:#737B73;
+  --acc:#79A98A;--acc2:#B1D1B5;--red:#A84D4D;
+  --line:rgba(232,234,229,.10);--line2:rgba(232,234,229,.18);
+  --disp:'Big Shoulders Display','IBM Plex Sans Thai',Impact,sans-serif;
+  --hd:'IBM Plex Sans Thai',system-ui,sans-serif;
+  --th:'IBM Plex Sans Thai',Tahoma,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --ease:cubic-bezier(.22,.7,.12,1);
+  --grade:saturate(.35) contrast(1.06) brightness(.82);
+}
+*{box-sizing:border-box}
+html{background:var(--black);scroll-padding-top:72px}
+body{margin:0;background:var(--black);color:var(--txt);font:400 17px/1.75 var(--th);overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,video,canvas{display:block;max-width:100%}
+a{color:inherit}button{font:inherit;color:inherit}
+::selection{background:var(--acc2);color:var(--black)}
+:focus-visible{outline:1px solid var(--acc2);outline-offset:4px}
+.wrap{width:min(1280px,100% - 56px);margin:0 auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* type scale */
+.label{font:500 11.5px/1.4 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--mut2)}
+.label.g{color:var(--acc)}
+.eyebrow{display:flex;align-items:center;gap:14px;font:500 11.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--acc)}
+.eyebrow b{font-weight:500;color:var(--mut2)}
+.eyebrow::after{content:"";flex:0 0 56px;height:1px;background:var(--line2)}
+h1,h2,h3,h4{margin:0;font-family:var(--hd);font-weight:600}
+.h2{font-size:clamp(38px,5.2vw,76px);line-height:1;letter-spacing:-.03em}
+.h2 .dim{color:var(--mut2)}
+.thh{font-family:var(--th);letter-spacing:0}
+.lead-en{font:400 clamp(18px,1.55vw,22px)/1.55 var(--hd);letter-spacing:-.01em;color:var(--txt);margin:0}
+.body-th{color:var(--mut);margin:0}
+section{position:relative;padding:clamp(96px,11vw,160px) 0}
+.sec-head{display:grid;grid-template-columns:1fr minmax(0,420px);gap:40px;align-items:end;margin-bottom:clamp(44px,5vw,72px)}
+.sec-head .h2{margin-top:22px}
+.sec-head p{margin:0;color:var(--mut);font-size:16px}
+.rule{height:1px;background:var(--line)}
+
+/* ---------- wordmark (title identity) ---------- */
+.wm{display:inline-flex;flex-direction:column;line-height:1;position:relative}
+.wm .w1{display:flex;align-items:center;gap:.7em;font:500 .21em var(--hd);letter-spacing:.62em;color:var(--mut);text-transform:uppercase;margin:0 0 .16em .04em}
+.wm .w1 i{width:.55em;height:.55em;border-radius:50%;background:var(--red);flex:0 0 auto;animation:rec 1.6s steps(1) infinite}
+.wm .w1 s{text-decoration:none;font:500 .6em var(--mono);letter-spacing:.2em;color:var(--mut2);margin-left:auto}
+.wm .w2{position:relative;font:700 1em var(--hd);letter-spacing:-.045em;color:var(--txt);text-transform:uppercase}
+.wm .w2::before,.wm .w2::after{content:attr(data-t);position:absolute;inset:0;opacity:0;pointer-events:none}
+.wm .w2::before{color:var(--acc2);clip-path:inset(18% 0 58% 0)}
+.wm .w2::after{color:var(--red);clip-path:inset(62% 0 14% 0)}
+.wm.glitch .w2::before{opacity:.75;transform:translate(-.025em,0)}
+.wm.glitch .w2::after{opacity:.6;transform:translate(.02em,0)}
+.wm.glitch .w2{transform:skewX(-2deg)}
+.wm .bar{display:flex;align-items:center;gap:.6em;margin-top:.14em;font:500 .085em var(--mono);letter-spacing:.24em;color:var(--mut2);text-transform:uppercase}
+.wm .bar::before{content:"";height:1px;flex:1;background:linear-gradient(90deg,var(--acc),transparent)}
+@keyframes rec{0%{opacity:1}50%{opacity:.25}}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none;white-space:nowrap}
+.logo .mk{width:28px;height:28px;flex:0 0 auto}
+.logo .lt{display:flex;flex-direction:column;line-height:1}
+.logo .lt b{font:700 15px var(--hd);letter-spacing:-.01em}
+.logo .lt small{font:500 9.5px var(--mono);letter-spacing:.28em;color:var(--mut2);margin-top:4px}
+
+/* ---------- buttons ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;gap:14px;height:56px;padding:0 26px;border:1px solid transparent;font:500 12.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:background .35s var(--ease),color .35s,border-color .35s,transform .35s var(--ease);overflow:hidden}
+.btn .arr{transition:transform .35s var(--ease)}
+.btn:hover .arr{transform:translateX(4px)}
+.btn.pri{background:var(--txt);color:var(--black)}
+.btn.pri:hover{background:var(--acc2)}
+.btn.sec{border-color:var(--line2);color:var(--txt);background:rgba(8,10,9,.35)}
+.btn.sec:hover{border-color:var(--acc);background:rgba(121,169,138,.08)}
+.btn .ply{width:22px;height:22px;border:1px solid currentColor;border-radius:50%;display:grid;place-items:center}
+.btn[disabled]{opacity:.55;cursor:progress}
+
+/* ---------- loader ---------- */
+#loader{position:fixed;inset:0;z-index:200;background:var(--black);display:grid;place-items:center;transition:opacity .8s var(--ease),visibility .8s}
+#loader.done{opacity:0;visibility:hidden}
+.ld{width:min(380px,82vw);font:400 12px/1.9 var(--mono);color:var(--mut2);letter-spacing:.08em}
+.ld .top{display:flex;justify-content:space-between;color:var(--mut);margin-bottom:22px}
+.ld .top span:first-child::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-right:8px;animation:rec 1.2s steps(1) infinite}
+.ld ol{list-style:none;margin:0;padding:0;min-height:92px}
+.ld li{opacity:0;transform:translateY(4px);transition:opacity .3s,transform .3s}
+.ld li.on{opacity:1;transform:none}
+.ld li.on::after{content:" ok";color:var(--acc)}
+.ld .bar{height:1px;background:var(--line);margin-top:18px}
+.ld .bar i{display:block;height:100%;width:0;background:var(--acc2);transition:width .3s linear}
+
+/* ---------- nav ---------- */
+header.nav{position:fixed;inset:0 0 auto 0;z-index:60;transition:background .45s var(--ease),border-color .45s;border-bottom:1px solid transparent}
+header.nav.solid{background:rgba(8,10,9,.94);border-bottom-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;height:72px;gap:32px}
+.links{display:flex;gap:2px;margin:0 0 0 auto;padding:0;list-style:none}
+.links a{position:relative;display:block;padding:10px 13px;text-decoration:none;font:500 12px var(--mono);letter-spacing:.12em;color:var(--mut);white-space:nowrap;transition:color .3s}
+.links a::after{content:"";position:absolute;left:13px;right:13px;bottom:3px;height:1px;background:var(--acc2);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.links a:hover,.links a.on{color:var(--txt)}
+.links a:hover::after,.links a.on::after{transform:scaleX(1)}
+.nav .rec{display:flex;align-items:center;gap:8px;font:500 11px var(--mono);letter-spacing:.14em;color:var(--mut2);white-space:nowrap}
+.nav .rec i{width:6px;height:6px;border-radius:50%;background:var(--red);animation:rec 1.6s steps(1) infinite}
+.burger{display:none;margin-left:auto;width:46px;height:42px;background:none;border:1px solid var(--line2);cursor:pointer}
+.burger i{display:block;width:18px;height:1.5px;background:var(--txt);margin:5px auto;transition:transform .35s var(--ease),opacity .3s}
+.nav.open .burger i:nth-child(1){transform:translateY(6.5px) rotate(45deg)}.nav.open .burger i:nth-child(2){opacity:0}.nav.open .burger i:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* ---------- analog layers ---------- */
+.grain{position:absolute;inset:-50%;width:200%;height:200%;pointer-events:none;opacity:.07;mix-blend-mode:overlay;animation:grain 1.4s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
+.scan{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.22) 0 1px,transparent 1px 3px);opacity:.28}
+.band{position:absolute;left:0;right:0;top:-20%;height:18%;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(232,234,229,.035) 45%,rgba(232,234,229,.06) 50%,rgba(232,234,229,.035) 55%,transparent);animation:band 11s linear infinite}
+@keyframes band{from{transform:translateY(0)}to{transform:translateY(700%)}}
+#sig{position:fixed;inset:0;z-index:150;pointer-events:none;opacity:0;background:repeating-linear-gradient(0deg,rgba(232,234,229,.05) 0 2px,transparent 2px 5px)}
+#sig.on{animation:sig .26s steps(3) 1}
+@keyframes sig{0%{opacity:.9;transform:translateY(-2px)}50%{opacity:.4;transform:translateY(3px)}100%{opacity:0;transform:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;isolation:isolate;padding:120px 0 110px}
+.hero .bg{position:absolute;inset:0;z-index:-3;overflow:hidden}
+.hero .bg video,.hero .bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.18) contrast(1.08) brightness(.5);transform:scale(1.08);animation:drift 30s ease-in-out infinite alternate}
+@keyframes drift{from{transform:scale(1.08) translate(0,0)}to{transform:scale(1.14) translate(-1.4%,-1%)}}
+.hero .tint{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(8,10,9,.94) 0%,rgba(8,10,9,.78) 42%,rgba(8,10,9,.55) 100%),linear-gradient(0deg,var(--black) 0%,transparent 30%),linear-gradient(180deg,rgba(8,10,9,.8),transparent 26%)}
+.hero .fx{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.hero .fx::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 260px 60px rgba(0,0,0,.85)}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:clamp(36px,5vw,80px);align-items:center}
+.hero .wm{font-size:clamp(64px,8.6vw,138px);margin:28px 0 30px}
+.tag-en{font:500 clamp(15px,1.25vw,18px)/1.5 var(--hd);letter-spacing:.02em;color:var(--txt);margin:0 0 12px}
+.hero .th{color:var(--mut);max-width:520px;margin:0 0 38px;font-size:16.5px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero .meta{display:flex;gap:28px;margin-top:44px;padding-top:22px;border-top:1px solid var(--line);flex-wrap:wrap}
+.hero .meta div{display:flex;flex-direction:column;gap:4px}
+.hero .meta b{font:500 14px var(--hd);color:var(--txt)}
+.st{opacity:0;transform:translateY(22px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+.ready .st{opacity:1;transform:none}
+.ready .st.d1{transition-delay:.1s}.ready .st.d2{transition-delay:.22s}.ready .st.d3{transition-delay:.34s}.ready .st.d4{transition-delay:.46s}.ready .st.d5{transition-delay:.6s}.ready .st.d6{transition-delay:.8s}
+.scroll{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none}
+.scroll i{width:1px;height:46px;background:var(--line2);position:relative;overflow:hidden}
+.scroll i::after{content:"";position:absolute;left:0;top:-40%;width:1px;height:40%;background:var(--acc2);animation:drop 2.2s var(--ease) infinite}
+@keyframes drop{to{top:110%}}
+
+/* ---------- CCTV monitor ---------- */
+.cctv{position:relative;background:var(--black);border:1px solid var(--line2);box-shadow:0 50px 120px -40px rgba(0,0,0,.95)}
+.cctv .hdr,.cctv .ftr{display:flex;align-items:center;gap:16px;padding:11px 14px;font:500 11px var(--mono);letter-spacing:.12em;color:var(--mut);text-transform:uppercase}
+.cctv .hdr{border-bottom:1px solid var(--line)}
+.cctv .hdr .rc{display:flex;align-items:center;gap:8px;color:var(--txt)}
+.cctv .hdr .rc i{width:7px;height:7px;border-radius:50%;background:var(--red);animation:rec 1.2s steps(1) infinite}
+.cctv .hdr .rc.lost{color:var(--red)}
+.cctv .hdr .ts{margin-left:auto;color:var(--txt);font-variant-numeric:tabular-nums}
+.cctv .sigb{display:flex;gap:2px;align-items:flex-end;height:11px}
+.cctv .sigb span{width:3px;background:var(--acc);opacity:.9}
+.cctv .sigb span:nth-child(1){height:30%}.cctv .sigb span:nth-child(2){height:55%}.cctv .sigb span:nth-child(3){height:80%}.cctv .sigb span:nth-child(4){height:100%}
+.cctv.weak .sigb span:nth-child(n+3){opacity:.15}
+.feed{position:relative;aspect-ratio:16/10.3;overflow:hidden;background:#000}
+.feed img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.45) hue-rotate(6deg) contrast(1.12) brightness(.92);opacity:0;transform:scale(1.04);transition:opacity .5s steps(4),transform 6s linear}
+.feed img.on{opacity:1;transform:scale(1.1)}
+.feed .scan{opacity:.45}
+.feed .vig{position:absolute;inset:0;box-shadow:inset 0 0 90px 10px rgba(0,0,0,.9);pointer-events:none}
+.feed canvas.static{position:absolute;inset:-50%;width:200%;height:200%;opacity:.08;mix-blend-mode:screen;pointer-events:none;animation:grain .7s steps(5) infinite;transition:opacity .25s}
+.cctv.switching canvas.static{opacity:.75}
+.cctv.glitch .feed img.on{transform:scale(1.1) translateX(-6px) skewX(-3deg);filter:saturate(.45) contrast(1.6) brightness(1.1)}
+.cctv.glitch .feed::after{content:"";position:absolute;left:0;right:0;top:46%;height:9%;background:rgba(232,234,229,.10);mix-blend-mode:screen}
+.feed .osd{position:absolute;left:14px;top:12px;font:500 12px var(--mono);letter-spacing:.12em;color:rgba(232,234,229,.9);text-shadow:0 0 4px rgba(0,0,0,.9)}
+.feed .osd small{display:block;color:rgba(232,234,229,.6);font-size:10.5px;margin-top:2px}
+.feed .mot{position:absolute;right:14px;top:12px;font:500 10.5px var(--mono);letter-spacing:.14em;padding:3px 7px;border:1px solid var(--red);color:#e7b3b3;background:rgba(168,77,77,.18);opacity:0;transition:opacity .3s}
+.feed .mot.on{opacity:1;animation:rec 1s steps(1) infinite}
+.feed .ret{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px;border:1px solid rgba(232,234,229,.35)}
+.feed .crn{position:absolute;inset:12px;pointer-events:none;background:linear-gradient(var(--line2),var(--line2)) 0 0/18px 1px,linear-gradient(var(--line2),var(--line2)) 0 0/1px 18px,linear-gradient(var(--line2),var(--line2)) 100% 0/18px 1px,linear-gradient(var(--line2),var(--line2)) 100% 0/1px 18px,linear-gradient(var(--line2),var(--line2)) 0 100%/18px 1px,linear-gradient(var(--line2),var(--line2)) 0 100%/1px 18px,linear-gradient(var(--line2),var(--line2)) 100% 100%/18px 1px,linear-gradient(var(--line2),var(--line2)) 100% 100%/1px 18px;background-repeat:no-repeat}
+.cctv .ftr{border-top:1px solid var(--line);gap:6px;flex-wrap:wrap}
+.cctv .ch{display:flex;gap:4px}
+.cctv .ch button{height:30px;min-width:40px;padding:0 8px;background:transparent;border:1px solid var(--line2);font:500 11px var(--mono);letter-spacing:.08em;color:var(--mut);cursor:pointer;transition:border-color .25s,color .25s,background .25s}
+.cctv .ch button:hover{color:var(--txt);border-color:var(--mut)}
+.cctv .ch button.on{color:var(--black);background:var(--acc2);border-color:var(--acc2)}
+.cctv .loc{margin-left:auto;display:flex;gap:18px;text-transform:none;letter-spacing:.04em}
+.cctv .loc b{display:block;font:500 13px var(--th);color:var(--txt);letter-spacing:0}
+.cctv .loc .warn b{color:#d58c8c}
+
+/* ---------- reveals ---------- */
+.rv{opacity:0;transform:translateY(28px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
+.mask{clip-path:inset(0 0 100% 0);transition:clip-path 1.3s var(--ease)}
+.mask.in{clip-path:inset(0 0 0 0)}
+.mask img{transform:scale(1.12);transition:transform 1.8s var(--ease)}
+.mask.in img{transform:scale(1)}
+
+/* ---------- about + case file ---------- */
+#about{background:var(--black)}
+.about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(40px,6vw,100px);align-items:start}
+.about .h2{margin:22px 0 32px}
+.about .lead-en{margin-bottom:20px}
+.case{background:var(--bg);border:1px solid var(--line2);position:relative}
+.case .tabbar{display:flex;border-bottom:1px solid var(--line)}
+.case .tabbar button{flex:1;height:48px;background:none;border:0;border-right:1px solid var(--line);font:500 11.5px var(--mono);letter-spacing:.14em;color:var(--mut2);cursor:pointer;text-transform:uppercase;transition:color .25s,background .25s}
+.case .tabbar button:last-child{border-right:0}
+.case .tabbar button.on{color:var(--txt);background:var(--surf)}
+.case .tabbar button:hover{color:var(--txt)}
+.case .head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:26px 26px 0}
+.case .head .no{font:600 30px/1 var(--hd);letter-spacing:-.02em}
+.case .head .no small{display:block;font:500 11px var(--mono);letter-spacing:.16em;color:var(--mut2);margin-bottom:10px}
+.case .stamp{font:500 11px var(--mono);letter-spacing:.18em;color:var(--mut);border:1px solid var(--line2);padding:6px 10px;transform:rotate(-2deg)}
+.case .pane{display:none;padding:22px 26px 26px}
+.case .pane.on{display:block}
+.case dl{margin:0;display:grid;grid-template-columns:minmax(150px,auto) 1fr}
+.case dt,.case dd{padding:15px 0;border-top:1px solid var(--line);margin:0}
+.case dt{font:500 11px var(--mono);letter-spacing:.14em;color:var(--mut2);text-transform:uppercase;padding-top:18px}
+.case dd{font:500 16px var(--hd);color:var(--txt)}
+.case dd small{display:block;font:400 14px var(--th);color:var(--mut);margin-top:2px}
+.case .stv{display:inline-flex;align-items:center;gap:9px}
+.case .stv i{width:7px;height:7px;border-radius:50%;background:var(--acc)}
+.case .stv.unk i{background:var(--mut2);animation:rec 1.8s steps(1) infinite}
+.case .tw::after{content:"▍";color:var(--acc);margin-left:2px;animation:rec 1s steps(1) infinite}
+.ev{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:20px}
+.ev ul{list-style:none;margin:0;padding:0}
+.ev li button{width:100%;text-align:left;background:none;border:0;border-top:1px solid var(--line);padding:14px 0;cursor:pointer;display:grid;grid-template-columns:54px 1fr;gap:6px;transition:color .25s}
+.ev li:last-child button{border-bottom:1px solid var(--line)}
+.ev li button span{font:500 11px var(--mono);letter-spacing:.1em;color:var(--mut2);padding-top:3px}
+.ev li button b{font:500 15.5px var(--th);color:var(--mut)}
+.ev li button small{grid-column:2;font-size:13.5px;color:var(--mut2);line-height:1.55}
+.ev li button.on b,.ev li button:hover b{color:var(--txt)}
+.ev li button.on span{color:var(--acc)}
+.ev li button .flag{color:#d58c8c}
+.ev figure{margin:0;position:relative;aspect-ratio:4/3;overflow:hidden;background:#000;border:1px solid var(--line)}
+.ev figure img{width:100%;height:100%;object-fit:cover;filter:var(--grade);transition:opacity .4s}
+.ev figure figcaption{position:absolute;left:10px;bottom:9px;font:500 10.5px var(--mono);letter-spacing:.12em;color:var(--txt);background:rgba(8,10,9,.75);padding:4px 8px}
+.strip{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:14px;margin-top:clamp(70px,8vw,110px)}
+.strip figure{margin:0;position:relative;aspect-ratio:16/10;overflow:hidden;background:#000}
+.strip img{width:100%;height:100%;object-fit:cover;filter:var(--grade)}
+.strip figcaption{position:absolute;left:12px;bottom:10px;font:500 10.5px var(--mono);letter-spacing:.12em;background:rgba(8,10,9,.72);padding:4px 8px}
+
+/* ---------- gameplay ---------- */
+#gameplay{background:var(--bg)}
+.player{position:relative;aspect-ratio:16/9;background:#000;border:1px solid var(--line2);overflow:hidden}
+.player video{width:100%;height:100%;object-fit:cover;background:#000}
+.player .cover{position:absolute;inset:0;border:0;padding:0;width:100%;cursor:pointer;background:#000;transition:opacity .6s var(--ease)}
+.player .cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.4) brightness(.7);transition:transform 1.4s var(--ease),filter .6s}
+.player .cover::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,10,9,.9),transparent 55%)}
+.player .cover:hover img{transform:scale(1.035);filter:saturate(.55) brightness(.8)}
+.player.playing .cover{opacity:0;pointer-events:none}
+.pb{position:absolute;left:50%;top:50%;width:104px;height:104px;margin:-52px;border-radius:50%;border:1px solid rgba(232,234,229,.6);display:grid;place-items:center;z-index:2;transition:transform .45s var(--ease),border-color .3s,background .3s}
+.pb::before{content:"";position:absolute;inset:-1px;border-radius:50%;border:1px solid var(--acc2);opacity:0;animation:ring 2.8s var(--ease) infinite}
+@keyframes ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.55);opacity:0}}
+.cover:hover .pb{transform:scale(1.06);background:rgba(232,234,229,.08);border-color:var(--txt)}
+.pb svg{margin-left:5px}
+.cover .lbl{position:absolute;left:28px;bottom:24px;z-index:2;text-align:left}
+.cover .lbl b{display:block;font:600 clamp(20px,2.3vw,30px) var(--hd);letter-spacing:-.02em;margin-top:8px}
+.cover .dur{position:absolute;right:28px;bottom:28px;z-index:2}
+.chapters{display:grid;grid-template-columns:repeat(6,1fr);border:1px solid var(--line);border-top:0}
+.chapters button{background:none;border:0;border-right:1px solid var(--line);padding:16px 14px;text-align:left;cursor:pointer;position:relative;transition:background .3s}
+.chapters button:last-child{border-right:0}
+.chapters button span{display:block;font:500 11px var(--mono);letter-spacing:.1em;color:var(--mut2)}
+.chapters button b{display:block;font:500 14.5px var(--th);color:var(--mut);margin-top:4px}
+.chapters button::after{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:var(--acc2);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.chapters button:hover{background:var(--surf)}
+.chapters button.on b,.chapters button:hover b{color:var(--txt)}
+.chapters button.on::after{transform:scaleX(1)}
+.vnote{margin-top:16px;font-size:14px;color:var(--mut2)}
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:clamp(80px,9vw,120px)}
+.pill{position:relative;background:var(--bg);min-height:460px;display:flex;flex-direction:column;overflow:hidden;isolation:isolate}
+.pill .im{position:relative;height:210px;overflow:hidden}
+.pill .im img{width:100%;height:100%;object-fit:cover;filter:var(--grade);transition:transform 1.4s var(--ease),filter .6s}
+.pill:hover .im img{transform:scale(1.07);filter:saturate(.7) contrast(1.05)}
+.pill .tx{padding:24px 24px 28px;display:flex;flex-direction:column;gap:10px;flex:1}
+.pill .n{font:500 11px var(--mono);letter-spacing:.16em;color:var(--acc)}
+.pill h3{font-size:24px;letter-spacing:-.02em;text-transform:uppercase}
+.pill .ths{font:500 14.5px var(--th);color:var(--acc2)}
+.pill p{margin:0;color:var(--mut);font-size:15px}
+.pill::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:100%;background:var(--acc2);transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease)}
+.pill:hover::after{transform:scaleX(1)}
+
+/* ---------- gallery ---------- */
+#screenshots{background:var(--black)}
+.gal{position:relative}
+.gtrack{position:relative;aspect-ratio:16/8.4;overflow:hidden;background:#000;border:1px solid var(--line)}
+.gslide{position:absolute;inset:0;border:0;padding:0;background:#000;cursor:zoom-in;opacity:0;clip-path:inset(0 0 0 100%);transition:clip-path 1.1s var(--ease),opacity 0s 1.1s}
+.gslide.on{opacity:1;clip-path:inset(0 0 0 0);transition:clip-path 1.1s var(--ease),opacity 0s;z-index:2}
+.gslide.was{opacity:1;z-index:1;transition:none}
+.gslide img{width:100%;height:100%;object-fit:cover;filter:saturate(.75) contrast(1.04);transform:scale(1.06);transition:transform 6s linear}
+.gslide.on img{transform:scale(1)}
+.gslide::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,10,9,.85),transparent 42%)}
+.gcap{position:absolute;left:28px;bottom:24px;z-index:3;text-align:left}
+.gcap b{display:block;font:500 clamp(19px,2vw,26px) var(--th);margin-top:6px}
+.gctl{display:flex;align-items:center;gap:22px;margin-top:20px}
+.gnav{width:52px;height:52px;background:none;border:1px solid var(--line2);cursor:pointer;display:grid;place-items:center;transition:border-color .3s,background .3s}
+.gnav:hover{border-color:var(--acc);background:rgba(121,169,138,.08)}
+.gcount{font:500 12px var(--mono);letter-spacing:.14em;color:var(--mut);min-width:64px}
+.gdots{display:flex;gap:6px;flex:1}
+.gdots button{flex:1;height:2px;border:0;padding:0;background:var(--line2);cursor:pointer;position:relative;overflow:hidden}
+.gdots button.on i{position:absolute;inset:0;background:var(--acc2);transform-origin:left;animation:prog 6s linear forwards}
+.gal.paused .gdots button.on i{animation-play-state:paused}
+@keyframes prog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.gthumbs{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;margin-top:16px}
+.gthumbs button{padding:0;border:1px solid transparent;background:#000;cursor:pointer;aspect-ratio:16/9;overflow:hidden;opacity:.45;transition:opacity .3s,border-color .3s}
+.gthumbs img{width:100%;height:100%;object-fit:cover;filter:saturate(.5)}
+.gthumbs button.on,.gthumbs button:hover{opacity:1;border-color:var(--acc)}
+#lb{position:fixed;inset:0;z-index:180;background:rgba(8,10,9,.97);display:none;align-items:center;justify-content:center}
+#lb.on{display:flex}
+#lb img{max-width:90vw;max-height:82vh;border:1px solid var(--line)}
+#lb .x,#lb .a{position:absolute;background:var(--black);border:1px solid var(--line2);cursor:pointer;width:52px;height:52px;display:grid;place-items:center}
+#lb .x{top:20px;right:20px}#lb .a.p{left:20px;top:50%;margin-top:-26px}#lb .a.n{right:20px;top:50%;margin-top:-26px}
+#lb .c{position:absolute;bottom:24px;left:0;right:0;text-align:center;font:400 14px var(--th);color:var(--mut)}
+#lb .c span{font:500 11.5px var(--mono);letter-spacing:.14em;color:var(--mut2);margin-right:12px}
+
+/* ---------- details ---------- */
+#info{background:var(--bg)}
+.info{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.info div{padding:26px 26px 28px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:background .35s}
+.info div:hover{background:var(--surf)}
+.info dt{margin-bottom:12px}
+.info dd{margin:0;font:600 21px/1.3 var(--hd);letter-spacing:-.015em}
+.info dd small{display:block;font:400 14.5px var(--th);color:var(--mut);margin-top:4px;letter-spacing:0}
+.req{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px);margin-top:56px}
+.req h3{margin-bottom:16px}
+.req ul{list-style:none;margin:0;padding:0}
+.req li{display:flex;justify-content:space-between;gap:20px;padding:12px 0;border-top:1px solid var(--line);font-size:15.5px}
+.req li span:first-child{color:var(--mut2)}
+.req li span:last-child{text-align:right}
+.req p{color:var(--mut);font-size:15.5px;margin:0 0 26px}
+.req .warn{color:#d58c8c}
+
+/* ---------- creator ---------- */
+#creator{background:var(--black);overflow:hidden}
+.creator{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:clamp(40px,7vw,120px);align-items:end}
+.creator .name{font:600 clamp(48px,7.6vw,118px)/.92 var(--hd);letter-spacing:-.045em;margin:26px 0 22px}
+.creator .name span{display:block;color:var(--mut2)}
+.creator .thn{font:500 clamp(20px,2vw,26px) var(--th);color:var(--txt);margin:0 0 8px}
+.creator .role{margin-bottom:38px}
+.creator blockquote{margin:0;padding-left:22px;border-left:1px solid var(--acc)}
+.creator blockquote p{margin:0 0 14px}
+.rec-card{border:1px solid var(--line2);background:var(--bg);font:400 13px/1.9 var(--mono);color:var(--mut);padding:22px 24px}
+.rec-card div{display:flex;justify-content:space-between;gap:16px;border-bottom:1px dashed var(--line);padding:6px 0}
+.rec-card div:last-child{border-bottom:0}
+.rec-card b{font-weight:500;color:var(--txt);text-align:right}
+.rec-card .top{display:flex;align-items:center;gap:8px;color:var(--txt);border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:6px;letter-spacing:.12em}
+.rec-card .top i{width:6px;height:6px;border-radius:50%;background:var(--red);animation:rec 1.6s steps(1) infinite}
+
+/* ---------- download ---------- */
+#download{padding:0;overflow:hidden;background:var(--black)}
+.dlbg{position:absolute;inset:0;overflow:hidden}
+.dlbg img{width:100%;height:118%;object-fit:cover;filter:saturate(.2) brightness(.42) contrast(1.1);will-change:transform}
+.dlbg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,10,9,.96) 35%,rgba(8,10,9,.7)),linear-gradient(0deg,var(--black),transparent 25%,transparent 75%,var(--black))}
+.dl{position:relative;padding:clamp(120px,14vw,190px) 0;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:60px;align-items:center}
+.dl .h2{margin:22px 0 16px}
+.dl .h2 em{font-style:normal;color:var(--acc2)}
+.dl .lead-en{color:var(--mut);margin-bottom:40px}
+.dl .row{display:flex;gap:12px;flex-wrap:wrap}
+.dlbtn{height:64px;padding:0 34px;font-size:13px}
+.dlmsg{margin:18px 0 0;font-size:15px;color:var(--mut);min-height:1.6em}
+.dlmsg.ok{color:var(--acc2)}.dlmsg.err{color:#d58c8c}
+.spec{border:1px solid var(--line2);background:rgba(8,10,9,.82)}
+.spec .t{padding:20px 22px;border-bottom:1px solid var(--line);font:700 22px var(--hd);letter-spacing:-.02em;display:flex;justify-content:space-between;align-items:center}
+.spec .t span{font:500 11px var(--mono);letter-spacing:.16em;color:var(--black);background:var(--acc2);padding:4px 9px}
+.spec ul{list-style:none;padding:0 22px;margin:0}
+.spec li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+.spec li:last-child{border-bottom:0}
+.spec li span:first-child{font:500 11px var(--mono);letter-spacing:.14em;color:var(--mut2);text-transform:uppercase;padding-top:3px}
+
+/* ---------- manual ---------- */
+#manual{background:var(--bg)}
+.mtabs{display:flex;gap:0;margin-bottom:34px;border:1px solid var(--line);width:max-content;max-width:100%;overflow-x:auto}
+.mtabs button{background:none;border:0;border-right:1px solid var(--line);padding:12px 20px;font:500 14.5px var(--th);color:var(--mut);cursor:pointer;white-space:nowrap;transition:background .25s,color .25s}
+.mtabs button:last-child{border-right:0}
+.mtabs button.on{background:var(--txt);color:var(--black)}
+.mtabs button:hover:not(.on){color:var(--txt);background:var(--surf)}
+.mpane{display:none}.mpane.on{display:block}
+.man{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,80px)}
+.man h3{font:600 20px var(--th);margin:0 0 12px}
+.man p{color:var(--mut);margin:0 0 22px}
+.steps{list-style:none;padding:0;margin:0;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:48px 1fr;padding:16px 0;border-top:1px solid var(--line)}
+.steps li::before{content:"0" counter(s);font:500 12px var(--mono);letter-spacing:.1em;color:var(--acc);padding-top:4px}
+.keys{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.k{display:flex;align-items:center;gap:14px;padding:13px 16px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-size:15px;color:var(--mut)}
+kbd{font:500 12px var(--mono);background:var(--black);border:1px solid var(--line2);border-bottom-width:2px;padding:3px 8px;min-width:34px;text-align:center;color:var(--txt);white-space:nowrap}
+.tip{margin:16px 0 0;padding:14px 18px;border-left:1px solid var(--acc);background:rgba(121,169,138,.06);font-size:15.5px;color:var(--mut)}
+.tip b{color:var(--txt);font-weight:500}
+.tip.w{border-color:var(--red);background:rgba(168,77,77,.07)}
+details{border-top:1px solid var(--line)}
+details:last-child{border-bottom:1px solid var(--line)}
+summary{cursor:pointer;padding:17px 0;font:500 16.5px var(--th);list-style:none;display:flex;justify-content:space-between;gap:20px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:400 22px/1 var(--mono);color:var(--acc);transition:transform .35s var(--ease)}
+details[open] summary::after{transform:rotate(45deg)}
+details>div{padding:0 0 18px;color:var(--mut);font-size:15.5px}
+details ul{margin:0;padding-left:20px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:12px 10px 12px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 11px var(--mono);letter-spacing:.14em;color:var(--mut2);text-transform:uppercase}
+td:first-child{color:var(--txt)}td{color:var(--mut)}
+
+/* ---------- footer ---------- */
+footer{background:var(--black);border-top:1px solid var(--line);padding:80px 0 36px}
+.ft{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px}
+.ft .wm{font-size:58px}
+.ft p{color:var(--mut);font-size:15px;max-width:380px;margin:22px 0 0}
+.ft h4{font:500 11px var(--mono);letter-spacing:.16em;color:var(--mut2);margin:0 0 18px;text-transform:uppercase}
+.ft ul{list-style:none;margin:0;padding:0}
+.ft li a{display:inline-block;padding:5px 0;text-decoration:none;font:400 15px var(--hd);color:var(--mut);transition:color .25s}
+.ft li a:hover{color:var(--txt)}
+.ft .cr b{display:block;font:500 16px var(--hd);color:var(--txt)}
+.ft .cr span{display:block;font:400 15px var(--th);color:var(--mut)}
+.legal{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:64px;padding-top:22px;border-top:1px solid var(--line);font-size:13px;color:var(--mut2)}
+
+/* ---------- cursor reticle (media only) ---------- */
+#cur{position:fixed;left:0;top:0;width:54px;height:54px;margin:-27px 0 0 -27px;z-index:170;pointer-events:none;border:1px solid rgba(232,234,229,.55);border-radius:50%;opacity:0;transform:scale(.6);transition:opacity .25s,transform .35s var(--ease);display:grid;place-items:center;font:500 9px var(--mono);letter-spacing:.14em;color:var(--txt)}
+#cur.on{opacity:1;transform:scale(1)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1180px){.links a{padding:10px 9px;font-size:11.5px}.nav .rec{display:none}.pillars{grid-template-columns:1fr 1fr}.ft{grid-template-columns:1fr 1fr}}
+@media (max-width:980px){
+  .scroll{display:none}
+  .hero{padding:110px 0 90px}.hero-grid{grid-template-columns:1fr}.hero .cctv{max-width:640px}
+  .about,.creator,.dl{grid-template-columns:1fr}.sec-head{grid-template-columns:1fr}
+  .info{grid-template-columns:1fr 1fr}.chapters{grid-template-columns:repeat(3,1fr)}.chapters button:nth-child(3){border-right:0}.chapters button:nth-child(-n+3){border-bottom:1px solid var(--line)}
+}
+@media (max-width:860px){
+  .links{display:none}.burger{display:block}
+  .nav.open .links{display:flex;position:fixed;top:72px;left:0;right:0;bottom:0;flex-direction:column;background:var(--black);padding:24px 28px;gap:0;overflow:auto}
+  .nav.open .links a{font:500 22px var(--hd);letter-spacing:-.01em;padding:18px 0;border-bottom:1px solid var(--line);color:var(--txt)}
+  .nav.open .links a::after{display:none}
+  .man,.req{grid-template-columns:1fr}.strip{grid-template-columns:1fr 1fr}.strip figure:first-child{grid-column:1/-1}
+  .gthumbs{grid-template-columns:repeat(5,1fr)}.gtrack{aspect-ratio:4/3}.ev{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .wrap{width:calc(100% - 36px)}
+  .eyebrow{flex-wrap:wrap;gap:6px 10px}.eyebrow::after{display:none}
+  body{font-size:16px}
+  .hero .wm{font-size:clamp(46px,15.5vw,80px)}.wm .w1{letter-spacing:.42em}
+  .btn{height:52px;padding:0 20px;width:100%;justify-content:center}
+  .hero .meta{gap:18px}
+  .cctv .loc{margin-left:0;width:100%}.cctv .hdr{gap:10px}.cctv .hdr .nm{display:none}
+  .pillars,.info,.keys{grid-template-columns:1fr}.pill{min-height:0}
+  .chapters{grid-template-columns:1fr 1fr}.chapters button{border-bottom:1px solid var(--line)}.chapters button:nth-child(odd){border-right:1px solid var(--line)}.chapters button:nth-child(even){border-right:0}
+  .pb{width:78px;height:78px;margin:-39px}.cover .lbl{left:16px;bottom:14px}.cover .dur{display:none}
+  .case dl{grid-template-columns:1fr}.case dt{padding-bottom:0;border-top:1px solid var(--line)}.case dd{border-top:0;padding-top:4px}
+  .ft{grid-template-columns:1fr}.ft .wm{font-size:48px}
+  .gnav{width:44px;height:44px}.gdots{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv,.st{opacity:1;transform:none}.mask{clip-path:none}.mask img{transform:none}
+  .hero .bg video{display:none}
+}
+/* ===== V3: case-file storytelling layer ===== */
+.hero-grid>*,.creator>*,.story>*,.result>*,.dl>*,.about>*{min-width:0}
+.creator .name span:first-child{color:var(--txt)}
+.title{margin:0;font:900 clamp(76px,10.8vw,180px)/.84 var(--disp);letter-spacing:.006em;text-transform:uppercase;color:var(--txt);transition:transform .12s,text-shadow .12s}
+.title span{display:block}
+.title.glitch{text-shadow:-3px 0 rgba(177,209,181,.55),3px 0 rgba(168,77,77,.5);transform:skewX(-1.2deg)}
+.hero .title{margin:24px 0 22px}
+.tline{display:flex;align-items:center;gap:14px;margin-bottom:26px;font:500 11px var(--mono);letter-spacing:.16em;color:var(--mut2)}
+.tline i{flex:0 1 90px;height:1px;background:var(--line2)}
+.ftitle{font-size:56px;line-height:.9;margin:0 0 8px}
+.h2{font:800 clamp(50px,6.6vw,108px)/.9 var(--disp);letter-spacing:.004em;text-transform:uppercase}
+.h2.thh{font:600 clamp(40px,4.8vw,70px)/1.15 var(--th);text-transform:none}
+.sh{display:flex;align-items:baseline;gap:22px 30px;flex-wrap:wrap;margin:26px 0 clamp(46px,5vw,72px)}
+.sh .sub{margin:0;font:500 clamp(17px,1.5vw,22px) var(--th);color:var(--mut)}
+.pg{display:flex;align-items:center;gap:16px;font:500 11px var(--mono);letter-spacing:.16em;color:var(--mut2);text-transform:uppercase}
+.pg i{flex:1;height:1px;background:var(--line)}
+.pg .dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex:0 0 auto}
+.pg.in{animation:flick 1.1s steps(1) 1}
+.pg.in .dot{animation:rec 1.6s steps(1) infinite}
+@keyframes flick{0%{opacity:0}8%{opacity:1}12%{opacity:.15}18%{opacity:1}26%{opacity:.4}30%,100%{opacity:1}}
+section+section{border-top:1px solid var(--line)}
+#story{background:var(--black)}
+.story{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:clamp(40px,6vw,96px);align-items:start}
+.log{display:grid;grid-template-columns:76px minmax(0,1fr);gap:10px;padding:26px 0;border-top:1px solid var(--line)}
+.log .ln{font:500 11px var(--mono);letter-spacing:.14em;color:var(--mut2);padding-top:8px}
+.log>div{position:relative}
+.log>div::after{content:"";position:absolute;inset:-2px -4px;background:var(--surf2);transform-origin:right;transition:transform 1s .3s var(--ease)}
+.log.in>div::after{transform:scaleX(0)}
+.log p{margin:0}
+.log .t{font-size:clamp(17.5px,1.4vw,20px);line-height:1.85;color:var(--txt)}
+.log .t+.t{margin-top:12px}
+.log .e{margin-top:12px;font:400 15px/1.7 var(--th);color:var(--mut2)}
+.log.alert{border-top-color:rgba(168,77,77,.6)}
+.log.alert .ln{color:#d58c8c}
+.log.alert .big{font:600 clamp(26px,2.8vw,40px)/1.35 var(--th);color:var(--txt)}
+.log.alert .big-e{font:800 clamp(24px,2.4vw,34px)/1 var(--disp);letter-spacing:.02em;text-transform:uppercase;color:#d58c8c;margin-top:14px}
+.log.end .q{font:500 clamp(20px,1.8vw,26px)/1.6 var(--th)}
+.record{position:sticky;top:100px;border:1px solid var(--line2);background:var(--bg)}
+.record figure{margin:0;position:relative;aspect-ratio:4/3;overflow:hidden}
+.record figure img{width:100%;height:100%;object-fit:cover;filter:var(--grade)}
+.record figcaption{position:absolute;left:10px;bottom:9px;font:500 10.5px var(--mono);letter-spacing:.12em;background:rgba(8,10,9,.78);padding:4px 8px}
+.record dl{margin:0;padding:6px 20px 14px;display:grid;grid-template-columns:auto 1fr;column-gap:18px}
+.record dt,.record dd{margin:0;padding:12px 0;border-top:1px solid var(--line)}
+.record dl>dt:first-child,.record dl>dt:first-child+dd{border-top:0}
+.record dt{font:500 10.5px var(--mono);letter-spacing:.14em;color:var(--mut2);text-transform:uppercase;padding-top:15px}
+.record dd{font:500 15px var(--th)}
+.record dd small{display:block;font-size:13px;color:var(--mut);font-weight:400}
+.record .stv{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:13px;letter-spacing:.1em}
+.record .stv i{width:7px;height:7px;border-radius:50%;background:var(--acc)}
+.record .stv.unk i{background:var(--mut2);animation:rec 1.8s steps(1) infinite}
+.record .tw::after{content:"▍";color:var(--acc);margin-left:2px;animation:rec 1s steps(1) infinite}
+#genre{background:var(--bg)}
+.genres{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.gcard{position:relative;background:var(--black);border:1px solid var(--line);overflow:hidden;transition:border-color .4s,transform .5s var(--ease)}
+.gcard .im{position:relative;aspect-ratio:4/5;overflow:hidden}
+.gcard .im img{width:100%;height:100%;object-fit:cover;filter:var(--grade);transition:transform 1.4s var(--ease),filter .5s}
+.gcard .im::after,.feat .im::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.25) 0 1px,transparent 1px 3px);opacity:0;transition:opacity .3s}
+.gcard:hover{border-color:var(--line2);transform:translateY(-4px)}
+.gcard:hover .im img{transform:scale(1.06);filter:saturate(.6) contrast(1.08) brightness(.9)}
+.gcard:hover .im::after,.feat:hover .im::after{opacity:1;animation:flick .5s steps(1) 1}
+.gcard .tx{padding:22px 22px 26px}
+.gcard .n{font:500 11px var(--mono);letter-spacing:.16em;color:var(--acc)}
+.gcard h3{font:800 28px/1 var(--disp);text-transform:uppercase;letter-spacing:.01em;margin:10px 0 12px}
+.gcard p{margin:0;color:var(--mut);font-size:15.5px;line-height:1.75}
+.feats{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,2vw,28px)}
+.feat{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);border:1px solid var(--line);background:var(--bg);overflow:hidden;transition:border-color .4s}
+.feat:hover{border-color:var(--line2)}
+.feat .im{position:relative;aspect-ratio:16/11;overflow:hidden;background:#000}
+.feat .im img{width:100%;height:100%;object-fit:cover;filter:saturate(.55) contrast(1.05);transition:transform 1.4s var(--ease),filter .5s}
+.feat:hover .im img{transform:scale(1.05);filter:saturate(.85)}
+.feat .tag{position:absolute;left:10px;top:10px;font:500 11px var(--mono);letter-spacing:.14em;background:rgba(8,10,9,.8);padding:3px 8px;color:var(--acc2)}
+.feat .tx{padding:24px 24px;display:flex;flex-direction:column;justify-content:flex-end}
+.feat h3{font:800 clamp(26px,2.3vw,34px)/.95 var(--disp);text-transform:uppercase;letter-spacing:.01em;margin:0 0 12px}
+.feat p{margin:0;color:var(--mut);font-size:16px;line-height:1.75}
+.trailer-head{display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;margin:clamp(80px,9vw,120px) 0 22px}
+.trailer-head h3{font:800 clamp(34px,3.4vw,52px)/1 var(--disp);text-transform:uppercase}
+.trailer-head p{margin:0;color:var(--mut);font-size:15.5px}
+#inspiration{background:var(--black)}
+.insp{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(18px,3vw,40px);align-items:stretch}
+.ref{border:1px solid var(--line2);background:var(--bg);padding:clamp(24px,3vw,40px)}
+.ref h3{font:800 clamp(40px,4.6vw,72px)/.92 var(--disp);text-transform:uppercase;letter-spacing:.005em;margin:14px 0 10px}
+.ref .what{margin:0 0 22px;color:var(--acc2);font-size:17px}
+.ref ul{list-style:none;margin:0;padding:0}
+.ref li{display:grid;grid-template-columns:30px 1fr;padding:11px 0;border-top:1px solid var(--line);color:var(--mut);font-size:15.5px}
+.ref li::before{content:"—";color:var(--mut2);font-family:var(--mono)}
+.plus{align-self:center;font:800 64px/1 var(--disp);color:var(--mut2)}
+.result{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(30px,5vw,70px);align-items:center;margin-top:clamp(40px,5vw,64px)}
+.result figure{margin:0;position:relative;aspect-ratio:16/10;overflow:hidden;border:1px solid var(--line)}
+.result figure img{width:100%;height:100%;object-fit:cover;filter:var(--grade)}
+.result figcaption{position:absolute;left:12px;bottom:10px;font:800 22px var(--disp);letter-spacing:.04em;background:rgba(8,10,9,.8);padding:4px 10px}
+.result .t{font-size:clamp(18px,1.5vw,21px);line-height:1.8;margin:14px 0}
+.result .e{color:var(--mut);font-size:15.5px;margin:0 0 22px}
+.result .disc{margin:0;padding-top:16px;border-top:1px solid var(--line);font-size:13.5px;color:var(--mut2);line-height:1.7}
+.creator{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:clamp(40px,7vw,120px);align-items:end;margin-top:clamp(40px,5vw,64px)}
+.creator .name span{display:block}
+.creator .name{font:900 clamp(64px,8.6vw,140px)/.86 var(--disp);letter-spacing:.004em;text-transform:uppercase;margin:16px 0 20px}
+.creator blockquote .e{font:400 clamp(17px,1.4vw,20px)/1.6 var(--th);color:var(--txt);margin:0 0 12px}
+.creator blockquote .t{color:var(--mut);margin:0;font-size:16px}
+.rec-card .proj{margin:6px 0 10px;font:800 34px/1 var(--disp);color:var(--txt);letter-spacing:.01em}
+.rec-card .proj span{display:block;font:500 11px var(--mono);letter-spacing:.18em;color:var(--acc);margin-top:8px}
+.dl{padding:clamp(40px,5vw,70px) 0 clamp(120px,13vw,180px)}
+.dl .h2{margin:16px 0 18px}
+.dl .lead-en span{display:block;font-size:16px;color:var(--mut2);margin-top:4px}
+.filest{display:inline-flex;align-items:center;gap:10px;margin:0;font:500 11.5px var(--mono);letter-spacing:.12em;color:var(--mut);border:1px solid var(--line2);padding:8px 12px}
+.filest i{width:7px;height:7px;border-radius:50%;background:var(--mut2)}
+.filest.done{color:var(--acc2);border-color:rgba(121,169,138,.5)}
+.filest.done i{background:var(--acc)}
+#prog{position:fixed;left:24px;bottom:22px;z-index:55;display:flex;align-items:center;gap:12px;padding:9px 14px;background:rgba(8,10,9,.9);border:1px solid var(--line2);opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s var(--ease);pointer-events:none}
+#prog.on{opacity:1;transform:none}
+#prog b{font:500 12px var(--mono);color:var(--txt);letter-spacing:.08em}
+#prog i{width:84px;height:2px;background:var(--line2);position:relative;overflow:hidden}
+#prog s{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--acc2);transition:width .6s var(--ease)}
+.gthumbs{grid-template-columns:repeat(13,1fr)}
+@media (max-width:1180px){.genres{grid-template-columns:1fr 1fr}.feats{grid-template-columns:1fr}}
+@media (max-width:980px){#prog{display:none}.story,.result,.creator{grid-template-columns:1fr}.record{position:static}.insp{grid-template-columns:1fr}.plus{justify-self:center;font-size:44px}}
+@media (max-width:860px){.gthumbs{grid-template-columns:repeat(7,1fr)}}
+@media (max-width:600px){.pg>span:first-child,.pg i{display:none}.pg{justify-content:space-between}.title{font-size:clamp(60px,19vw,104px)}.genres{grid-template-columns:1fr}.gcard .im{aspect-ratio:16/10}.feat{grid-template-columns:1fr}.log{grid-template-columns:1fr;gap:6px}.log .ln{padding-top:0}.h2{font-size:clamp(44px,12.5vw,64px)}.sh{gap:8px;margin-top:20px}.gthumbs{grid-template-columns:repeat(5,1fr)}.tline i{flex-basis:30px}}
+@media (prefers-reduced-motion:reduce){.log>div::after{display:none}.pg.in{animation:none}}
+
+/* ===== language switcher + per-language typography ===== */
+.lang{display:flex;align-items:center;gap:2px;margin-left:8px;font:500 12px var(--mono);color:var(--mut2)}
+.lang button{background:none;border:0;padding:8px 7px;cursor:pointer;font:500 12px var(--mono);letter-spacing:.12em;color:var(--mut2);position:relative;transition:color .25s}
+.lang button:hover{color:var(--txt)}
+.lang button.on{color:var(--txt)}
+.lang button.on::after{content:"";position:absolute;left:7px;right:7px;bottom:3px;height:1px;background:var(--acc2)}
+html[lang=en]{--th:'Inter','IBM Plex Sans Thai',system-ui,sans-serif;--hd:'Inter','IBM Plex Sans Thai',system-ui,sans-serif}
+html[lang=en] body{line-height:1.65}
+html[lang=th] body{line-height:1.8}
+html[lang=th] .h2{font:600 clamp(38px,4.6vw,68px)/1.2 var(--th);text-transform:none;letter-spacing:0}
+html[lang=th] .gcard h3,html[lang=th] .feat h3,html[lang=th] .trailer-head h3{font-family:var(--th);font-weight:600;text-transform:none;letter-spacing:0;line-height:1.3}
+html[lang=th] .gcard h3{font-size:23px}html[lang=th] .feat h3{font-size:clamp(22px,1.9vw,28px)}html[lang=th] .trailer-head h3{font-size:clamp(28px,2.8vw,40px)}
+html[lang=th] .links a,html[lang=th] .eyebrow,html[lang=th] .btn,html[lang=th] .label,html[lang=th] .pg,html[lang=th] .mtabs button,html[lang=th] .tline span:last-child,html[lang=th] .filest{font-family:var(--th);letter-spacing:.02em}
+html[lang=th] .links a{font-size:14px;font-weight:500}
+html[lang=th] .btn{font-size:15px;font-weight:500}
+html[lang=th] .label{font-size:12.5px;text-transform:none}
+html[lang=th] .record .stv,html[lang=th] .record dt{font-family:var(--th);letter-spacing:.02em;text-transform:none;font-size:13.5px}
+html[lang=th] .log.alert .big{font-size:clamp(28px,3vw,44px)}
+html[lang=en] .log .t{font-size:clamp(17px,1.35vw,19.5px)}
+html[lang=en] .log.alert .big{font:800 clamp(30px,3.4vw,52px)/1 var(--disp);text-transform:uppercase;color:#d58c8c;letter-spacing:.01em}
+@media (max-width:860px){.lang{margin-left:auto}.burger{margin-left:10px}}
+</style>
+</head>
+<body>
+<div id="loader" role="status" aria-live="polite"><div class="ld">
+  <div class="top"><span>REC</span><span id="ldclock">00:00:00</span></div>
+  <ol id="ldlist"><li data-i="ld1"></li><li data-i="ld2"></li><li data-i="ld3"></li><li data-i="ld4"></li></ol>
+  <div class="bar"><i id="ldbar"></i></div>
+</div></div>
+<div id="sig" aria-hidden="true"></div>
+<div id="cur" aria-hidden="true"></div>
+
+<header class="nav" id="nav"><div class="wrap">
+  <a class="logo" href="#home" data-to="home" data-ia="aria-label:aHome">
+    <svg class="mk" viewBox="0 0 28 28" aria-hidden="true"><path d="M1 8V1h7M20 1h7v7M27 20v7h-7M8 27H1v-7" fill="none" stroke="#A0A69F" stroke-width="1.5"/><circle cx="14" cy="14" r="5" fill="none" stroke="#E8EAE5" stroke-width="1.5"/><circle cx="14" cy="14" r="1.6" fill="#A84D4D"/></svg>
+    <span class="lt"><b>CYBER DETECTIVE</b><small>CASE FILE 1407</small></span></a>
+  <ul class="links" id="links">
+    <li><a href="#story" data-to="story" data-i="nStory"></a></li>
+    <li><a href="#genre" data-to="genre" data-i="nGenre"></a></li>
+    <li><a href="#gameplay" data-to="gameplay" data-i="nGameplay"></a></li>
+    <li><a href="#inspiration" data-to="inspiration" data-i="nInsp"></a></li>
+    <li><a href="#screenshots" data-to="screenshots" data-i="nShots"></a></li>
+    <li><a href="#creator" data-to="creator" data-i="nCreator"></a></li>
+    <li><a href="#download" data-to="download" data-i="nDownload"></a></li>
+  </ul>
+  <span class="rec" aria-hidden="true"><i></i><span id="navclock">REC 00:00:00</span></span>
+  <div class="lang" role="group" data-ia="aria-label:aLang"><button type="button" data-lang="th" lang="th" aria-label="ภาษาไทย">TH</button><span aria-hidden="true">|</span><button type="button" data-lang="en" lang="en" aria-label="English">EN</button></div>
+  <button class="burger" id="burger" type="button" data-ia="aria-label:aMenu" aria-expanded="false" aria-controls="links"><i></i><i></i><i></i></button>
+</div></header>
+
+<main>
+<!-- HERO -->
+<section class="hero" id="home" aria-label="Cyber Detective">
+  <div class="bg" aria-hidden="true">
+    <img src="video/hero-poster.jpg" alt="">
+    <video id="heroVid" muted loop playsinline preload="auto" poster="video/hero-poster.jpg"><source src="video/hero.webm" type="video/webm"><source src="video/hero.mp4" type="video/mp4"></video>
+  </div>
+  <div class="tint" aria-hidden="true"></div>
+  <div class="fx" aria-hidden="true"><canvas class="grain" id="grain"></canvas><div class="scan"></div><div class="band"></div></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow st" data-i="heroEyebrow"></div>
+      <h1 class="title st d1" id="wm" data-fit><span>Cyber</span> <span>Detective</span></h1>
+      <div class="tline st d2"><span>CASE FILE 1407</span><i></i><span data-i="heroLine"></span></div>
+      <p class="tag-en st d2" data-i="heroTag"></p>
+      <p class="th st d3" data-i="heroDesc"></p>
+      <div class="ctas st d4">
+        <a class="btn pri" href="#story" data-to="story"><span data-i="ctaOpen"></span> <span class="arr">→</span></a>
+        <a class="btn sec" href="#gameplay" id="watchBtn"><span class="ply"><svg width="8" height="10" viewBox="0 0 8 10" aria-hidden="true"><path d="M0 0l8 5-8 5z" fill="currentColor"/></svg></span><span data-i="ctaWatch"></span></a>
+      </div>
+      <div class="meta st d5">
+        <div><span class="label" data-i="lGenre"></span><b data-i="vGenre"></b></div>
+        <div><span class="label" data-i="lPlatform"></span><b>Windows · macOS · Linux</b></div>
+        <div><span class="label" data-i="lVersion"></span><b data-i="vVersion"></b></div>
+      </div>
+    </div>
+    <div class="cctv st d6" id="cctv" data-ia="aria-label:aCctv">
+      <div class="hdr"><span class="rc" id="rc"><i></i><span id="rcTxt">REC</span></span><span class="nm" id="chName">CAM 01</span><span class="sigb" aria-hidden="true"><span></span><span></span><span></span><span></span></span><span class="ts" id="ts">00:02:02</span></div>
+      <div class="feed" id="feed" data-cursor="cCam">
+        <img src="cctv/cam01.jpg" class="on" data-ia="alt:altCam1">
+        <img src="cctv/cam06.jpg" loading="lazy" data-ia="alt:altCam6">
+        <img src="cctv/cam08.jpg" loading="lazy" data-ia="alt:altCam8">
+        <img src="cctv/cam09.jpg" loading="lazy" data-ia="alt:altCam9">
+        <div class="scan"></div><canvas class="static" id="static" aria-hidden="true"></canvas><div class="vig"></div><div class="crn"></div><div class="ret"></div>
+        <div class="osd" id="osd"></div>
+        <div class="mot" id="mot">MOTION</div>
+      </div>
+      <div class="ftr">
+        <div class="ch" id="ch" role="tablist" data-ia="aria-label:aCams"></div>
+        <div class="loc"><div><span class="label" data-i="lLocation"></span><b data-i="vHouse"></b></div><div id="secSt"><span class="label" data-i="lStatus"></span><b id="secTxt"></b></div></div>
+      </div>
+    </div>
+  </div>
+  <a class="scroll" href="#story" data-to="story" data-ia="aria-label:aScroll"><span class="label" data-i="scroll"></span><i></i></a>
+</section>
+
+<!-- 01 THE STORY -->
+<section id="story" aria-labelledby="storyH">
+  <div class="wrap">
+    <div class="pg rv" aria-hidden="true"><span>CASE FILE 1407</span><i></i><span data-i="pg1"></span><b class="dot"></b></div>
+    <div class="sh"><h2 class="h2 rv" id="storyH" data-i="storyH"></h2><p class="sub rv d1" data-i="storySub"></p></div>
+    <div class="story">
+      <div class="logs">
+        <article class="log rv"><span class="ln">LOG 01</span><div><p class="t" data-i="log1"></p></div></article>
+        <article class="log rv"><span class="ln">LOG 02</span><div><p class="t" data-i="log2"></p></div></article>
+        <article class="log rv"><span class="ln">LOG 03</span><div><p class="t" data-i="log3a"></p><p class="t" data-i="log3b"></p></div></article>
+        <article class="log alert rv"><span class="ln">LOG 04</span><div><p class="big" data-i="log4"></p></div></article>
+        <article class="log rv"><span class="ln">LOG 05</span><div><p class="t" data-i="log5"></p></div></article>
+        <article class="log end rv"><span class="ln">LOG 06</span><div><p class="q" data-i="log6"></p></div></article>
+      </div>
+      <aside class="record rv d2" data-ia="aria-label:aRecord">
+        <figure class="mask"><img src="shots/hero.jpg" loading="lazy" data-ia="alt:altHouse"><figcaption data-i="capProperty"></figcaption></figure>
+        <dl>
+          <dt data-i="lLocation"></dt><dd>House No. 1407<small data-i="recLoc"></small></dd>
+          <dt data-i="lClass"></dt><dd data-i="vClass"></dd>
+          <dt data-i="lInvest"></dt><dd><span class="stv unk"><i></i><span class="tw" data-twk="vUnknown"></span></span></dd>
+          <dt data-i="lSurv"></dt><dd><span class="stv"><i></i><span class="tw" data-twk="vActive"></span></span><small data-i="recCams"></small></dd>
+        </dl>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- 02 GENRE -->
+<section id="genre" aria-labelledby="genreH">
+  <div class="wrap">
+    <div class="pg rv" aria-hidden="true"><span>CASE FILE 1407</span><i></i><span data-i="pg2"></span><b class="dot"></b></div>
+    <div class="sh"><h2 class="h2 rv" id="genreH" data-i="genreH"></h2><p class="sub rv d1" data-i="genreSub"></p></div>
+    <div class="genres">
+      <article class="gcard rv" data-cursor="cView"><div class="im"><img src="shots/g_horror.jpg" loading="lazy" data-ia="alt:altG1"></div><div class="tx"><span class="n">01</span><h3 data-i="g1h"></h3><p data-i="g1p"></p></div></article>
+      <article class="gcard rv d1" data-cursor="cView"><div class="im"><img src="shots/g_survival.jpg" loading="lazy" data-ia="alt:altG2"></div><div class="tx"><span class="n">02</span><h3 data-i="g2h"></h3><p data-i="g2p"></p></div></article>
+      <article class="gcard rv d2" data-cursor="cView"><div class="im"><img src="shots/g_cyber.jpg" loading="lazy" data-ia="alt:altG3"></div><div class="tx"><span class="n">03</span><h3 data-i="g3h"></h3><p data-i="g3p"></p></div></article>
+      <article class="gcard rv d3" data-cursor="cView"><div class="im"><img src="shots/g_story.jpg" loading="lazy" data-ia="alt:altG4"></div><div class="tx"><span class="n">04</span><h3 data-i="g4h"></h3><p data-i="g4p"></p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- 03 GAMEPLAY -->
+<section id="gameplay" aria-labelledby="gpH">
+  <div class="wrap">
+    <div class="pg rv" aria-hidden="true"><span>CASE FILE 1407</span><i></i><span data-i="pg3"></span><b class="dot"></b></div>
+    <div class="sh"><h2 class="h2 rv" id="gpH" data-i="gpH"></h2><p class="sub rv d1" data-i="gpSub"></p></div>
+    <div class="feats">
+      <article class="feat rv" data-cursor="cView"><div class="im"><img src="shots/gp_posts.jpg" loading="lazy" data-ia="alt:altF1"><span class="tag">01</span></div><div class="tx"><h3 data-i="f1h"></h3><p data-i="f1p"></p></div></article>
+      <article class="feat rv d1" data-cursor="cView"><div class="im"><img src="shots/gp_mail.jpg" loading="lazy" data-ia="alt:altF2"><span class="tag">02</span></div><div class="tx"><h3 data-i="f2h"></h3><p data-i="f2p"></p></div></article>
+      <article class="feat rv" data-cursor="cView"><div class="im"><img src="shots/lurk.jpg" loading="lazy" data-ia="alt:altF3"><span class="tag">03</span></div><div class="tx"><h3 data-i="f3h"></h3><p data-i="f3p"></p></div></article>
+      <article class="feat rv d1" data-cursor="cView"><div class="im"><img src="shots/bed.jpg" loading="lazy" data-ia="alt:altF4"><span class="tag">04</span></div><div class="tx"><h3 data-i="f4h"></h3><p data-i="f4p"></p></div></article>
+    </div>
+    <div class="trailer-head rv"><span class="label g" data-i="trLabel"></span><h3 data-i="trH"></h3><p data-i="trSub"></p></div>
+    <div class="player rv" id="player">
+      <video id="trailer" preload="metadata" playsinline controls poster="video/trailer-poster.jpg">
+        <source src="video/trailer.webm" type="video/webm"><source src="video/trailer.mp4" type="video/mp4"><span data-i="noVideo"></span>
+      </video>
+      <button class="cover" id="cover" type="button" data-ia="aria-label:aPlay" data-cursor="cPlay">
+        <img src="video/trailer-poster.jpg" alt="" loading="lazy">
+        <span class="pb"><svg width="24" height="28" viewBox="0 0 24 28" aria-hidden="true"><path d="M0 0l24 14L0 28z" fill="#E8EAE5"/></svg></span>
+        <span class="lbl"><span class="label g" data-i="playLbl"></span><b data-i="playTitle"></b></span>
+        <span class="dur label" id="dur">01:09</span>
+      </button>
+    </div>
+    <div class="chapters" id="chapters" data-ia="aria-label:aChapters"></div>
+    <p class="vnote" data-i="vnote"></p>
+  </div>
+</section>
+
+<!-- 04 INSPIRATION -->
+<section id="inspiration" aria-labelledby="insH">
+  <div class="wrap">
+    <div class="pg rv" aria-hidden="true"><span>CASE FILE 1407</span><i></i><span data-i="pg4"></span><b class="dot"></b></div>
+    <div class="sh"><h2 class="h2 rv" id="insH" data-i="insH"></h2><p class="sub rv d1" data-i="insSub"></p></div>
+    <div class="insp">
+      <article class="ref rv"><span class="label" data-i="refA"></span><h3>Fear to Fathom</h3><p class="what" data-i="refAw"></p><ul data-i="refAl"></ul></article>
+      <div class="plus rv d1" aria-hidden="true">+</div>
+      <article class="ref rv d1"><span class="label" data-i="refB"></span><h3>Scrutinized</h3><p class="what" data-i="refBw"></p><ul data-i="refBl"></ul></article>
+    </div>
+    <div class="result rv">
+      <figure class="mask"><img src="shots/pc.jpg" loading="lazy" data-ia="alt:altDesk"><figcaption>= CYBER DETECTIVE</figcaption></figure>
+      <div>
+        <span class="label g" data-i="concept"></span>
+        <p class="t" data-i="conceptP"></p>
+        <p class="disc" data-i="disc"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 SCREENSHOTS -->
+<section id="screenshots" aria-labelledby="ssH">
+  <div class="wrap">
+    <div class="pg rv" aria-hidden="true"><span>CASE FILE 1407</span><i></i><span data-i="pg5"></span><b class="dot"></b></div>
+    <div class="sh"><h2 class="h2 rv" id="ssH" data-i="ssH"></h2><p class="sub rv d1" data-i="ssSub"></p></div>
+    <div class="gal rv" id="gal">
+      <div class="gtrack" id="gtrack" data-cursor="cView"></div>
+      <div class="gctl">
+        <button class="gnav" type="button" id="gprev" data-ia="aria-label:aPrev"><svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M8 1L2 8l6 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+        <button class="gnav" type="button" id="gnext" data-ia="aria-label:aNext"><svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M2 1l6 7-6 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+        <span class="gcount" id="gcount">01 / 13</span>
+        <div class="gdots" id="gdots" role="tablist" data-ia="aria-label:aPick"></div>
+      </div>
+      <div class="gthumbs" id="gthumbs"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 CREATOR -->
+<section id="creator" aria-labelledby="crH">
+  <div class="wrap">
+    <div class="pg rv" aria-hidden="true"><span>CASE FILE 1407</span><i></i><span data-i="pg6"></span><b class="dot"></b></div>
+    <div class="creator">
+      <div>
+        <span class="label g rv" data-i="createdBy"></span>
+        <h2 class="name rv d1" id="crH" data-fit><span>Khanchana</span> <span>Pudpuak</span></h2>
+        <p class="thn rv d2">นายครรชนะ ผุดเผือก</p>
+        <p class="label role rv d2" data-i="role"></p>
+        <blockquote class="rv d3"><p class="e" data-i="crDesc"></p></blockquote>
+      </div>
+      <div class="rec-card rv d2" data-ia="aria-label:aProject">
+        <div class="top"><i></i><span data-i="gameProject"></span></div>
+        <p class="proj">CYBER DETECTIVE<span>CASE FILE 1407</span></p>
+        <div><span data-i="createdBy"></span><b>Khanchana Pudpuak</b></div>
+        <div><span data-i="creatorTh"></span><b>นายครรชนะ ผุดเผือก</b></div>
+        <div><span data-i="lType"></span><b data-i="vType"></b></div>
+        <div><span data-i="lBuild"></span><b>V9</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 DOWNLOAD -->
+<section id="download" aria-labelledby="dlH">
+  <div class="dlbg" aria-hidden="true"><img src="shots/hero.jpg" alt="" loading="lazy" data-par="0.08"></div>
+  <div class="wrap">
+    <div class="pg rv" aria-hidden="true" style="position:relative;z-index:1;padding-top:clamp(96px,11vw,150px)"><span>CASE FILE 1407</span><i></i><span data-i="pg7"></span><b class="dot"></b></div>
+    <div class="dl">
+      <div>
+        <p class="filest rv" id="fileState"><i></i><span></span></p>
+        <h2 class="h2 rv d1" id="dlH" data-i="dlH"></h2>
+        <p class="lead-en rv d2" data-i="dlLead"></p>
+        <div class="row rv d3">
+          <button class="btn pri dlbtn" id="dlBtn" type="button"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v10m-4.5-4.5L8 11l4.5-4.5M1 15h14" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><span data-i="dlBtn"></span></button>
+          <a class="btn sec" href="play/" id="playBtn"><span data-i="dlPlay"></span> <span class="arr">↗</span></a>
+          <a class="btn sec" href="#manual" data-to="manual"><span data-i="dlHow"></span> <span class="arr">→</span></a>
+        </div>
+        <p class="dlmsg" id="dlMsg" aria-live="polite"></p>
+      </div>
+      <div class="spec rv d2">
+        <div class="t">CYBER DETECTIVE <span data-i="free"></span></div>
+        <ul>
+          <li><span data-i="lSize"></span><span>11 MB (.zip)</span></li>
+          <li><span data-i="lPlatform"></span><span>Windows / macOS / Linux</span></li>
+          <li><span data-i="lVersion"></span><span>V9</span></li>
+          <li><span data-i="lPlayer"></span><span data-i="vPlayer"></span></li>
+          <li><span data-i="lLang"></span><span data-i="vLang"></span></li>
+          <li><span data-i="lInstall"></span><span data-i="vInstall"></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPENDIX -->
+<section id="manual" aria-labelledby="manH">
+  <div class="wrap">
+    <div class="pg rv" aria-hidden="true"><span>CASE FILE 1407</span><i></i><span data-i="pgA"></span><b class="dot"></b></div>
+    <div class="sh"><h2 class="h2 rv" id="manH" data-i="manH"></h2><p class="sub rv d1" data-i="manSub"></p></div>
+    <div class="mtabs rv" role="tablist" data-ia="aria-label:aManual">
+      <button type="button" class="on" data-p="m1" role="tab" aria-selected="true" data-i="t1"></button>
+      <button type="button" data-p="m6" role="tab" aria-selected="false" data-i="t6"></button>
+      <button type="button" data-p="m2" role="tab" aria-selected="false" data-i="t2"></button>
+      <button type="button" data-p="m3" role="tab" aria-selected="false" data-i="t3"></button>
+      <button type="button" data-p="m4" role="tab" aria-selected="false" data-i="t4"></button>
+      <button type="button" data-p="m5" role="tab" aria-selected="false" data-i="t5"></button>
+    </div>
+    <div class="mpane on" id="m1" role="tabpanel"><div class="man">
+      <ol class="steps" data-i="install"></ol>
+      <div><div class="tip" style="margin-top:0" data-i="tip1"></div><div class="tip" data-i="tip2"></div></div>
+    </div></div>
+    <div class="mpane" id="m6" role="tabpanel"><div class="req">
+      <div><ul data-i="reqList"></ul></div>
+      <div><h3 class="label g" data-i="privH"></h3><p data-i="privP"></p><h3 class="label" style="color:#d58c8c" data-i="cwH"></h3><p data-i="cwP"></p></div>
+    </div></div>
+    <div class="mpane" id="m2" role="tabpanel"><div class="keys" data-i="keys"></div></div>
+    <div class="mpane" id="m3" role="tabpanel"><div class="man">
+      <div><h3 data-i="ovH"></h3><p data-i="ovP"></p><h3 data-i="pcH"></h3><p data-i="pcP"></p></div>
+      <div><h3 data-i="hideH"></h3><ol class="steps" data-i="hideL"></ol><div class="tip w" data-i="hideTip"></div></div>
+    </div></div>
+    <div class="mpane" id="m4" role="tabpanel" data-i="faq"></div>
+    <div class="mpane" id="m5" role="tabpanel">
+      <p style="color:var(--mut);margin-top:0" data-i="credP"></p>
+      <table data-i="credT"></table>
+    </div>
+  </div>
+</section>
+</main>
+<div id="prog" aria-hidden="true"><span class="label">CASE FILE 1407</span><b id="progTxt">0 / 7</b><i><s id="progBar"></s></i></div>
+
+<footer>
+  <div class="wrap">
+    <div class="ft">
+      <div><p class="title ftitle" data-fit><span>Cyber</span> <span>Detective</span></p><span class="label">CASE FILE 1407</span><p data-i="ftDesc"></p></div>
+      <div><h4 data-i="ftExplore"></h4><ul><li><a href="#home" data-to="home" data-i="nHome"></a></li><li><a href="#story" data-to="story" data-i="nStory"></a></li><li><a href="#genre" data-to="genre" data-i="nGenre"></a></li><li><a href="#gameplay" data-to="gameplay" data-i="nGameplay"></a></li><li><a href="#inspiration" data-to="inspiration" data-i="nInsp"></a></li><li><a href="#screenshots" data-to="screenshots" data-i="nShots"></a></li></ul></div>
+      <div><h4 data-i="ftPlay"></h4><ul><li><a href="#download" data-to="download" data-i="ftDl"></a></li><li><a href="#manual" data-to="manual" data-i="manH"></a></li><li><a href="#manual" data-to="manual" data-tab="m5" data-i="t5"></a></li></ul></div>
+      <div class="cr"><h4 data-i="createdBy"></h4><b>Khanchana Pudpuak</b><span>นายครรชนะ ผุดเผือก</span><span class="label" style="display:block;margin-top:8px" data-i="role"></span></div>
+    </div>
+    <div class="legal"><span data-i="legal1"></span><span data-i="legal2"></span></div>
+  </div>
+</footer>
+
+<div id="lb" role="dialog" aria-modal="true" data-ia="aria-label:aLb">
+  <button class="x" type="button" data-ia="aria-label:aClose"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 1l14 14M15 1L1 15" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  <button class="a p" type="button" data-ia="aria-label:aPrev"><svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M8 1L2 8l6 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  <img alt="">
+  <button class="a n" type="button" data-ia="aria-label:aNext"><svg width="10" height="16" viewBox="0 0 10 16" aria-hidden="true"><path d="M2 1l6 7-6 7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+  <div class="c"></div>
+</div>
+
+<script>
+/* ================= i18n: one dictionary for every string on the page ================= */
+const li = a => a.map(x => '<li>' + x + '</li>').join('');
+const steps = a => a.map(x => '<li><div>' + x + '</div></li>').join('');
+const keys = a => a.map(([k, t]) => '<div class="k"><kbd>' + k + '</kbd> ' + t + '</div>').join('');
+const faq = a => a.map(([q, x]) => '<details><summary>' + q + '</summary><div>' + x + '</div></details>').join('');
+const rows = a => a.map(([k, v]) => '<li><span>' + k + '</span><span>' + v + '</span></li>').join('');
+const tbl = (h, r) => '<thead><tr>' + h.map(x => '<th>' + x + '</th>').join('') + '</tr></thead><tbody>' + r.map(c => '<tr>' + c.map(x => '<td>' + x + '</td>').join('') + '</tr>').join('') + '</tbody>';
+const translations = {
+th: {
+  title: 'CYBER DETECTIVE — ทุกบ้านมีความลับ', metaDesc: 'CYBER DETECTIVE — เกมสยองขวัญจิตวิทยาแนวสืบสวนไซเบอร์ โดย Khanchana Pudpuak (นายครรชนะ ผุดเผือก)',
+  ld1: 'กำลังเชื่อมต่อกล้อง CAM 01', ld2: 'ซิงก์ภาพจากกล้อง 12 ตัว', ld3: 'กำลังเปิดแฟ้มคดี 1407', ld4: 'รับสัญญาณแล้ว',
+  aHome: 'CYBER DETECTIVE หน้าแรก', aLang: 'เลือกภาษา', aMenu: 'เปิดเมนู', aMenuClose: 'ปิดเมนู', aCctv: 'กล้องวงจรปิดในเกม สลับช่องได้', aCams: 'เลือกกล้อง', aScroll: 'เลื่อนลง', aRecord: 'บันทึกแฟ้มคดี', aPlay: 'เล่นวิดีโอตัวอย่างการเล่น', aChapters: 'ข้ามไปยังช่วงของวิดีโอ', aPrev: 'ภาพก่อนหน้า', aNext: 'ภาพถัดไป', aPick: 'เลือกภาพ', aProject: 'ข้อมูลผลงาน', aManual: 'หมวดคู่มือ', aLb: 'ดูภาพเต็มจอ', aClose: 'ปิด', aView: 'ดูภาพ {x} แบบเต็มจอ', aShot: 'ภาพที่ {n}',
+  nHome: 'หน้าแรก', nStory: 'เรื่องราว', nGenre: 'แนวเกม', nGameplay: 'การเล่น', nInsp: 'แรงบันดาลใจ', nShots: 'ภาพในเกม', nCreator: 'ผู้สร้าง', nDownload: 'ดาวน์โหลด',
+  heroEyebrow: 'แฟ้มคดี 1407 <b>· เกมสยองขวัญจิตวิทยา</b>', heroLine: 'หนึ่งคืน · หนึ่งบ้าน',
+  heroTag: 'ทุกบ้านมีความลับ และทุกความลับมีราคาที่ต้องจ่าย',
+  heroDesc: 'เกมสยองขวัญจิตวิทยาที่คุณรับบทนักสืบไซเบอร์ ทำงานสืบสวนผ่านคอมพิวเตอร์ในบ้านของผู้ว่าจ้างเพียงลำพังตลอดทั้งคืน โดยไม่รู้ว่ามีใครบางคนกำลังเฝ้ามองอยู่',
+  ctaOpen: 'เปิดแฟ้มคดี', ctaWatch: 'ดูตัวอย่างการเล่น', lGenre: 'แนวเกม', vGenre: 'สยองขวัญจิตวิทยา', lPlatform: 'แพลตฟอร์ม', lVersion: 'เวอร์ชัน', vVersion: 'V9 · ฟรี',
+  lLocation: 'สถานที่', vHouse: 'บ้านเลขที่ 1407', lStatus: 'สถานะ', stWatch: 'เฝ้าระวัง', stMotion: 'ตรวจพบความเคลื่อนไหว', scroll: 'เปิดแฟ้ม',
+  camLoc1: 'ภายนอก · สนามหน้าบ้าน', camLoc: 'ภายนอก', altCam1: 'กล้อง CAM 1 ในเกม สนามหน้าบ้าน', altCam6: 'กล้อง CAM 6 ในเกม', altCam8: 'กล้อง CAM 8 ในเกม', altCam9: 'กล้อง CAM 9 ในเกม มีเงาคนยืนอยู่',
+  cCam: 'กล้อง', cView: 'ดู', cPlay: 'เล่น',
+  pg1: 'หน้า 01 / 07 — คำให้การ', pg2: 'หน้า 02 / 07 — ประเภทคดี', pg3: 'หน้า 03 / 07 — ขั้นตอน', pg4: 'หน้า 04 / 07 — อ้างอิง', pg5: 'หน้า 05 / 07 — ภาพหลักฐาน', pg6: 'หน้า 06 / 07 — ผู้จัดทำแฟ้ม', pg7: 'หน้า 07 / 07 — เริ่มต้น', pgA: 'ภาคผนวก — คู่มือภาคสนาม',
+  storyH: 'เรื่องราวของเกม', storySub: 'สิ่งที่เกิดขึ้นในบ้านหลังนั้น',
+  log1: 'คุณรับบทเป็นนักสืบไซเบอร์ที่ได้รับการว่าจ้างให้ตรวจสอบพฤติกรรมที่น่าสงสัยบนโลกออนไลน์ ภายในบ้านพักแห่งหนึ่งในหมู่บ้านชานเมืองอันเงียบสงบ',
+  log2: 'สิ่งที่เริ่มต้นจากการทำงานสืบสวนทางอินเทอร์เน็ตตามปกติ ค่อย ๆ กลายเป็นค่ำคืนที่เต็มไปด้วยความผิดปกติ',
+  log3a: 'ระหว่างตรวจสอบโปรไฟล์ผู้ใช้งาน โพสต์บนโลกออนไลน์ อีเมล และหลักฐานดิจิทัล คุณเริ่มพบภาพและข้อความแปลกประหลาดที่ไม่ควรปรากฏบนคอมพิวเตอร์',
+  log3b: 'ขณะเดียวกัน กล้องวงจรปิดรอบบ้านกลับเผยให้เห็นบางสิ่งที่กำลังเคลื่อนไหวอยู่ภายนอก',
+  log4: 'มีใครบางคนกำลังเฝ้ามองคุณอยู่',
+  log5: 'เมื่อไฟฟ้าถูกตัด และมีผู้บุกรุกเข้ามาภายในบ้าน การสืบสวนที่เคยเป็นเพียงงานธรรมดากลับกลายเป็นการเอาชีวิตรอดในค่ำคืนที่ไม่มีวันลืม',
+  log6: 'คุณจะค้นพบความจริงได้ก่อนที่ทุกอย่างจะสายเกินไปหรือไม่?',
+  altHouse: 'บ้านเลขที่ 1407 ในเกม', capProperty: 'สถานที่เกิดเหตุ · บ้านเลขที่ 1407', recLoc: 'บ้านพักในหมู่บ้านชานเมือง', lClass: 'ประเภท', vClass: 'สยองขวัญจิตวิทยา<small>สืบสวนไซเบอร์</small>', lInvest: 'การสืบสวน', lSurv: 'การเฝ้าระวัง', vUnknown: 'ยังไม่ทราบ', vActive: 'กำลังทำงาน', recCams: 'กล้องวงจรปิด 12 ตัวรอบบ้าน',
+  genreH: 'เกมนี้เป็นเกมแบบไหน?', genreSub: 'ประเภทของเกมที่คุณกำลังจะเล่น',
+  g1h: 'สยองขวัญจิตวิทยา', g1p: 'เกมสยองขวัญแนวจิตวิทยาที่เน้นความกดดัน ความหวาดระแวง และบรรยากาศที่ทำให้ผู้เล่นรู้สึกไม่ปลอดภัย',
+  g2h: 'เอาชีวิตรอดมุมมองบุคคลที่หนึ่ง', g2p: 'ผู้เล่นดำเนินเรื่องผ่านมุมมองบุคคลที่หนึ่ง สำรวจบ้าน ใช้สิ่งของ และหาทางเอาชีวิตรอดจากผู้บุกรุก',
+  g3h: 'สืบสวนไซเบอร์', g3p: 'ผู้เล่นต้องตรวจสอบบัญชีผู้ใช้งาน คัดกรองโพสต์ วิเคราะห์อีเมล และค้นหาหลักฐานบนโลกออนไลน์',
+  g4h: 'สยองขวัญขับเคลื่อนด้วยเรื่องราว', g4p: 'เกมขับเคลื่อนด้วยเรื่องราว เหตุการณ์ และสถานการณ์ที่ค่อย ๆ เปิดเผยความผิดปกติในแต่ละช่วงของคืน',
+  altG1: 'ทางเดินชั้นบนตอนไฟดับ ผู้บุกรุกยืนอยู่ปลายทาง', altG2: 'มุมมองจากใต้เตียง ผู้บุกรุกยืนหน้าตู้เสื้อผ้า', altG3: 'หน้าตรวจโปรไฟล์ในคดี 01', altG4: 'มุมแอบมองจากบ้านฝั่งตรงข้ามตอนรถมาถึง',
+  gpH: 'คืนของคุณ การสืบสวนของคุณ การเอาชีวิตรอดของคุณ', gpSub: 'สิ่งที่คุณต้องทำในคืนนั้น',
+  f1h: 'สืบสวนดิจิทัล', f1p: 'ตรวจสอบบัญชีผู้ใช้งาน คัดกรองโพสต์ และวิเคราะห์พฤติกรรมที่น่าสงสัยบนโลกออนไลน์',
+  f2h: 'ใช้งานคอมพิวเตอร์', f2p: 'ใช้งานคอมพิวเตอร์ รับข้อความ อ่านอีเมล และค้นหาหลักฐานดิจิทัล',
+  f3h: 'กล้องวงจรปิด', f3p: 'ตรวจสอบกล้องวงจรปิดรอบบ้าน สังเกตความเคลื่อนไหว และค้นหาบุคคลต้องสงสัย',
+  f4h: 'เอาชีวิตรอด', f4p: 'ปิดไฟ หาที่ซ่อน และระมัดระวังเสียงของตัวเองเมื่อมีผู้บุกรุกเข้ามาในบ้าน',
+  altF1: 'แฟ้มคดีและรายการโพสต์ที่ต้องตรวจในเกม', altF2: 'อีเมลพร้อมภาพแนบบนคอมพิวเตอร์ในเกม', altF3: 'กล้องวงจรปิด CAM 1 จับภาพคนแอบอยู่ข้างนอก', altF4: 'มองจากใต้เตียงในความมืด',
+  trLabel: '● ฟุตเทจจากเกมจริง', trH: 'ตัวอย่างการเล่น', trSub: 'ทุกฉากอัดจากตัวเกมจริง', noVideo: 'เบราว์เซอร์นี้เล่นวิดีโอไม่ได้', playLbl: '▶ เล่นวิดีโอ', playTitle: 'ตัวอย่างการเล่นอย่างเป็นทางการ',
+  vnote: 'กดปุ่มเต็มจอในแถบควบคุมวิดีโอเพื่อดูแบบเต็มจอ · ใส่หูฟังเพื่อฟังดนตรีประกอบ',
+  ch: ['ขับรถถึงบ้าน', 'มีคนเฝ้ามอง', 'เข้าบ้าน · งานสืบ', 'ไฟดับ', 'ซ่อนใต้เตียง', 'คืนนั้นจบลง'],
+  insH: 'แรงบันดาลใจ', insSub: 'ที่มาของแนวคิด',
+  refA: 'อ้างอิง A', refB: 'อ้างอิง B', refAw: 'ความสยองในบ้านที่ดูธรรมดา', refBw: 'การสืบสวนผ่านหน้าจอคอมพิวเตอร์',
+  refAl: li(['บรรยากาศสยองขวัญในบ้านที่สมจริง', 'การเล่าเรื่องผ่านมุมมองบุคคลที่หนึ่ง', 'ความตึงเครียดทางจิตใจที่ค่อย ๆ ก่อตัว', 'สถานที่ธรรมดาที่ค่อย ๆ กลายเป็นน่ากลัว', 'การเผชิญหน้ากับผู้บุกรุกที่ชวนลุ้น']),
+  refBl: li(['เกมเพลย์สืบสวนผ่านคอมพิวเตอร์', 'การวิเคราะห์ข้อมูลดิจิทัล', 'การตรวจสอบกิจกรรมออนไลน์ที่น่าสงสัย', 'การตัดสินใจจากหลักฐานที่รวบรวมได้', 'ความตึงเครียดที่เกิดจากการใช้งานคอมพิวเตอร์']),
+  altDesk: 'โต๊ะคอมพิวเตอร์ชั้นสองในบ้านเลขที่ 1407', concept: 'แนวคิดของเรา',
+  conceptP: 'CYBER DETECTIVE นำสองแนวทางนี้มาผสานเป็นแนวคิดของตัวเอง คือการสืบสวนไซเบอร์จากหน้าจอคอมพิวเตอร์ ภายในบ้านชานเมืองที่ดูธรรมดา ซึ่งค่อย ๆ กลายเป็นสถานที่ที่ไม่ปลอดภัยอีกต่อไป',
+  disc: 'Fear to Fathom และ Scrutinized เป็นผลงานของเจ้าของลิขสิทธิ์แต่ละราย อ้างถึงในฐานะแรงบันดาลใจเท่านั้น ไม่มีความเกี่ยวข้องหรือได้รับการรับรองอย่างเป็นทางการ ภาพทั้งหมดในเว็บไซต์นี้มาจาก CYBER DETECTIVE',
+  ssH: 'กระดานหลักฐาน', ssSub: 'ภาพจากในเกมจริงทั้งหมด คลิกเพื่อดูเต็มจอ',
+  shots: ['บ้านเลขที่ 1407 ยามพลบค่ำ', 'ถึงหน้าบ้านผู้ว่าจ้าง', 'สายจากริชาร์ด', 'โน้ตบนตู้เย็น', 'แฟ้มคดี 01', 'กล้องวงจรปิดหลังบ้าน', 'เงาที่อีกฝั่งถนน', 'อีเมลพร้อมภาพแนบ', 'ข้อความจากริชาร์ด', 'แผงไฟฟ้าหลัก', 'ในตู้เสื้อผ้า', 'มองจากใต้เตียง', 'หลังจากคืนนั้น'],
+  createdBy: 'สร้างโดย', role: 'ผู้สร้างเกม / นักพัฒนา', crDesc: 'ผลงานเกมที่ถ่ายทอดประสบการณ์สยองขวัญเชิงจิตวิทยา ผ่านการสืบสวนอาชญากรรมทางไซเบอร์ และความรู้สึกหวาดระแวงเมื่อรู้ว่ามีใครบางคนกำลังเฝ้ามองอยู่',
+  gameProject: 'โปรเจกต์เกม', creatorTh: 'ชื่อภาษาไทย', lType: 'ประเภท', vType: 'โปรเจกต์อิสระ', lBuild: 'บิลด์',
+  fileN: 'ตรวจแฟ้มคดีแล้ว {n} / 7 หน้า', fileDone: 'ตรวจแฟ้มคดีครบ 7 หน้าแล้ว — พร้อมเริ่มการสืบสวน',
+  dlH: 'การสืบสวนของคุณ<br>เริ่มต้น <em>ตอนนี้</em>', dlLead: 'พร้อมจะค้นหาความจริงแล้วหรือยัง?', dlBtn: 'ดาวน์โหลดเกม', dlPlay: 'เล่นบนเบราว์เซอร์', dlHow: 'วิธีติดตั้ง', free: 'ฟรี',
+  lSize: 'ขนาด', lPlayer: 'ผู้เล่น', vPlayer: 'เล่นคนเดียว · ออฟไลน์', lLang: 'ภาษา', vLang: 'ไทย (บทสนทนาและข้อความ)', lInstall: 'ติดตั้ง', vInstall: 'แตก zip › เปิด index.html',
+  dlPrep: 'กำลังเตรียมไฟล์…', dlNo: 'หน้านี้ดาวน์โหลดไฟล์ไม่ได้ในมุมมองนี้ ลองเปิดหน้านี้บน claude.ai โดยตรง', dlConfirm: 'กรุณายืนยันการดาวน์โหลดในหน้าต่างที่ขึ้นมา', dlOk: 'เริ่มดาวน์โหลดแล้ว แตก zip แล้วดับเบิลคลิก index.html เพื่อเล่น', dlDeclined: 'ยกเลิกการดาวน์โหลดแล้ว กดอีกครั้งเมื่อพร้อม', dlBusy: 'มีหน้าต่างยืนยันค้างอยู่ รอสักครู่แล้วลองใหม่', dlFail: 'ดาวน์โหลดไม่สำเร็จ ({e}) ลองใหม่อีกครั้ง', dlUnknown: 'ไม่ทราบสาเหตุ',
+  manH: 'คู่มือผู้เล่น', manSub: 'ทุกอย่างที่ต้องรู้เพื่อเล่น โดยไม่สปอยล์เนื้อเรื่อง',
+  t1: 'ติดตั้ง', t6: 'สเปกเครื่อง', t2: 'ปุ่มควบคุม', t3: 'วิธีเล่น', t4: 'แก้ปัญหา', t5: 'เครดิต',
+  install: steps(['กด <b>ดาวน์โหลดเกม</b> แล้วยืนยันการดาวน์โหลด', 'แตกไฟล์ zip (คลิกขวา › Extract All) ห้ามเปิดจากในไฟล์ zip โดยตรง', 'ดับเบิลคลิก <kbd>index.html</kbd> เกมจะเปิดใน Chrome หรือ Edge ไม่ต้องติดตั้ง ไม่ต้องต่อเน็ต', 'กด <b>NEW GAME</b> ตั้งความยาก คุณภาพภาพ และโหมดไมค์ล่วงหน้าได้ใน <b>OPTIONS</b>']),
+  tip1: 'เกมบันทึกจุดเช็กพอยต์ให้อัตโนมัติ ปิดเกมแล้วกลับมาเลือก <b>CONTINUE</b> ที่เมนูเพื่อเล่นต่อ', tip2: 'คลิกที่ฉากเพื่อล็อกเมาส์ ใส่หูฟังจะได้ยินฝีเท้าชัดขึ้นมาก ในไฟล์ zip มี <kbd>README_อ่านก่อน.txt</kbd> สรุปวิธีเล่นไว้',
+  reqList: rows([['ระบบปฏิบัติการ', 'Windows 10/11, macOS, Linux'], ['เบราว์เซอร์', 'Chrome หรือ Edge รุ่นล่าสุด'], ['กราฟิก', 'การ์ดจอที่รองรับ WebGL'], ['หน่วยความจำ', 'RAM 4 GB ขึ้นไป'], ['พื้นที่', 'ประมาณ 30 MB หลังแตกไฟล์'], ['อุปกรณ์', 'เมาส์ + คีย์บอร์ด · หูฟัง (แนะนำ) · ไมค์ (ไม่บังคับ)']]),
+  privH: 'ความเป็นส่วนตัว', privP: 'ไมค์ใช้วัดระดับเสียงบนเครื่องของคุณเท่านั้น และทำงานเฉพาะตอนซ่อนตัว ไม่มีการบันทึก จัดเก็บ หรือส่งข้อมูลออกไป', cwH: 'คำเตือนเนื้อหา', cwP: 'มีบรรยากาศตึงเครียด การสะกดรอยตาม คนบุกรุกบ้าน และเสียงตกใจ (jump scare) ไม่มีภาพเลือดหรือความรุนแรงโจ่งแจ้ง',
+  keys: keys([['W A S D', 'เดิน'], ['เมาส์', 'มองรอบตัว'], ['Shift', 'วิ่ง (เสียงดังขึ้น)'], ['E', 'ใช้งาน / หยิบ / เปิด / ซ่อน'], ['F', 'เปิด–ปิดไฟฉาย'], ['R', 'ล็อก / ปลดล็อกประตู'], ['P', 'เปิดโทรศัพท์'], ['Q', 'ลุกจากคอมพิวเตอร์'], ['Space', 'กลั้นหายใจ (ตอนซ่อน)'], ['C', 'ปรับเทียบไมค์ (ตอนซ่อน)'], ['Esc', 'หยุดเกม / ปิดหน้าต่าง'], ['↑ ↓ Enter', 'เลือกคำตอบในโทรศัพท์']]),
+  ovH: 'ภาพรวม', ovP: 'มุมซ้ายบนจะบอก <b>เป้าหมายปัจจุบัน</b> เสมอ รวมถึงตอนซ่อนตัว มองไปที่สิ่งของ ถ้ากดได้จะขึ้น <kbd>[E]</kbd> กลางจอ ข้อความจากริชาร์ดเข้ามาทางโทรศัพท์ <kbd>P</kbd>',
+  pcH: 'งานสืบบนคอมพิวเตอร์', pcP: 'นั่งที่โต๊ะชั้นสองด้วย <kbd>E</kbd> แต่ละคดีบอก "สิ่งที่นักสืบควรตรวจ" ไว้ทางขวา ติดตรงไหนกดปุ่ม <b>คำใบ้ ?</b> ตอบผิดไม่เสียอะไร สลับกล้องวงจรปิดด้วยปุ่มตัวเลขบนจอหรือลูกศร',
+  hideH: 'การซ่อนตัว', hideL: steps(['<b>ปิดไฟก่อน</b> ทั้งไฟห้องและไฟฉาย <kbd>F</kbd> ถ้ายังเปิดอยู่ เกมจะไม่ให้ซ่อน', 'ไปที่ตู้เสื้อผ้าหรือปลายเตียง แล้วกด <kbd>E</kbd>', 'อยู่นิ่ง ๆ แถบ "เสียงของคุณ" ต้องอยู่ในโซนเขียว เขาเข้าใกล้เมื่อไหร่ <b>กด Space ค้าง</b> กลั้นหายใจ', 'รอจนเป้าหมายบอกว่าออกได้ แล้วกด <kbd>E</kbd>']),
+  hideTip: 'อย่าวิ่งหรือเปิดประตูเสียงดังตอนเขาอยู่ในบ้าน เขาเดินตามเสียงที่ได้ยินล่าสุด',
+  faq: faq([['ดับเบิลคลิก index.html แล้วจอดำ / โหลดไม่เสร็จ', '<ul><li>คลิกขวาที่ไฟล์ › Open with › Chrome หรือ Edge</li><li>ต้องแตก zip ก่อนเปิด</li><li>ครั้งแรกอาจใช้เวลาโหลด 10–30 วินาที</li></ul>'], ['เกมกระตุก / เฟรมเรตต่ำ', '<ul><li>OPTIONS › คุณภาพภาพ › ต่ำ หรือ กลาง</li><li>ปิดแท็บอื่นที่ใช้การ์ดจอ เช่น วิดีโอ</li><li>โน้ตบุ๊ก: เสียบสายชาร์จ</li></ul>'], ['เมาส์หลุดออกจากเกม', 'คลิกที่ฉากอีกครั้งเพื่อล็อกเมาส์ (Esc จะปลดล็อกและหยุดเกม)'], ['ไมค์ไม่ทำงาน', 'ครั้งแรกที่ซ่อนตัว เกมจะถามว่าใช้ไมค์จริงหรือโหมดจำลอง ถ้าเบราว์เซอร์ปฏิเสธสิทธิ์ไมค์ เกมจะเปลี่ยนเป็นโหมดจำลองให้เอง เล่นจบได้เหมือนกัน'], ['หาทางไปต่อไม่เจอ', 'อ่านเป้าหมายมุมซ้ายบน เปิดโทรศัพท์ <kbd>P</kbd> ดูข้อความล่าสุด หรือใช้ปุ่ม <b>คำใบ้ ?</b> ที่คอม'], ['เล่นจบแล้ว เล่นใหม่ได้ไหม', 'ได้ หน้าจบมีปุ่มเริ่มใหม่ ตอนจบมีมากกว่าหนึ่งแบบ ขึ้นกับสิ่งที่คุณสืบเจอ']]),
+  credP: 'สร้างโดย <b>Khanchana Pudpuak (นายครรชนะ ผุดเผือก)</b> asset ภายนอกเป็นสัญญาอนุญาตแบบเปิดทั้งหมด รายละเอียดเต็มอยู่ใน CREDITS.md ในเกม',
+  credT: tbl(['ส่วน', 'ที่มา', 'สัญญาอนุญาต'], [['เฟอร์นิเจอร์ ต้นไม้ในบ้าน พื้นผิวภาพถ่าย', 'Poly Haven (หลายผู้สร้าง)', 'CC0 1.0'], ['โซฟา แจกัน', 'Khronos glTF Sample Assets', 'CC0 1.0'], ['ตัวละคร', 'Kenney — Animated Characters Retro', 'CC0 1.0'], ['เอนจิน 3D', 'three.js r128, GLTFLoader, FBXLoader', 'MIT'], ['ตัวถอดรหัสโมเดล', 'meshoptimizer decoder, fflate', 'MIT'], ['ฟอนต์เว็บไซต์', 'Big Shoulders Display, IBM Plex Sans Thai, IBM Plex Mono, Inter (Google Fonts)', 'SIL OFL 1.1'], ['เสียง ดนตรี และวิดีโอ', 'สังเคราะห์และอัดจากตัวเกมโดยโปรเจกต์นี้', 'ของโปรเจกต์']]),
+  ftDesc: 'เกมสยองขวัญจิตวิทยาแนวสืบสวนไซเบอร์ มุมมองบุคคลที่หนึ่ง คืนเดียวในบ้านของผู้ว่าจ้าง กับใครบางคนที่เฝ้ามองอยู่ข้างนอก', ftExplore: 'สำรวจ', ftPlay: 'เล่นเกม', ftDl: 'ดาวน์โหลด (V9)',
+  legal1: '© 2026 Khanchana Pudpuak · CYBER DETECTIVE · เวอร์ชัน V9', legal2: 'เรื่องราวและตัวละครทั้งหมดเป็นเรื่องแต่ง'
+},
+en: {
+  title: 'CYBER DETECTIVE — Every house has a secret', metaDesc: 'CYBER DETECTIVE — a psychological horror cyber-investigation game by Khanchana Pudpuak (นายครรชนะ ผุดเผือก)',
+  ld1: 'CONNECTING CAM 01', ld2: 'SYNCING 12 FEEDS', ld3: 'LOADING CASE FILE 1407', ld4: 'SIGNAL ACQUIRED',
+  aHome: 'CYBER DETECTIVE home', aLang: 'Choose language', aMenu: 'Open menu', aMenuClose: 'Close menu', aCctv: 'In-game security camera, switchable channels', aCams: 'Choose camera', aScroll: 'Scroll down', aRecord: 'Case record', aPlay: 'Play the gameplay trailer', aChapters: 'Jump to a part of the video', aPrev: 'Previous image', aNext: 'Next image', aPick: 'Choose image', aProject: 'Project details', aManual: 'Manual sections', aLb: 'Full-screen image', aClose: 'Close', aView: 'View {x} full screen', aShot: 'Image {n}',
+  nHome: 'HOME', nStory: 'THE STORY', nGenre: 'GENRE', nGameplay: 'GAMEPLAY', nInsp: 'INSPIRED BY', nShots: 'SCREENSHOTS', nCreator: 'CREATOR', nDownload: 'DOWNLOAD',
+  heroEyebrow: 'Case file 1407 <b>· Psychological horror game</b>', heroLine: 'ONE NIGHT · ONE HOUSE',
+  heroTag: 'Every house has a secret. Every secret has a price.',
+  heroDesc: 'A psychological horror game where you play a cyber detective, working alone through the night on a computer inside your client’s house — unaware that someone is watching.',
+  ctaOpen: 'Open case file', ctaWatch: 'Watch gameplay', lGenre: 'Genre', vGenre: 'Psychological Horror', lPlatform: 'Platform', lVersion: 'Version', vVersion: 'V9 · Free',
+  lLocation: 'Location', vHouse: 'House No. 1407', lStatus: 'Status', stWatch: 'Monitoring', stMotion: 'Motion detected', scroll: 'Open the file',
+  camLoc1: 'Exterior · front yard', camLoc: 'Exterior', altCam1: 'In-game CAM 1, front yard', altCam6: 'In-game CAM 6', altCam8: 'In-game CAM 8', altCam9: 'In-game CAM 9, a figure standing outside',
+  cCam: 'CAM', cView: 'VIEW', cPlay: 'PLAY',
+  pg1: 'PAGE 01 / 07 — STATEMENT', pg2: 'PAGE 02 / 07 — CLASSIFICATION', pg3: 'PAGE 03 / 07 — PROCEDURE', pg4: 'PAGE 04 / 07 — REFERENCES', pg5: 'PAGE 05 / 07 — PHOTOGRAPHIC EVIDENCE', pg6: 'PAGE 06 / 07 — FILED BY', pg7: 'PAGE 07 / 07 — BEGIN', pgA: 'APPENDIX — FIELD MANUAL',
+  storyH: 'The story', storySub: 'What happens in the house',
+  log1: 'Step into the role of a cyber detective hired to investigate suspicious online activity from the quiet suburban home of a private client.',
+  log2: 'What begins as an ordinary night of digital investigations soon turns into something far more disturbing.',
+  log3a: 'As you review online profiles, suspicious posts, emails, and digital evidence, strange images begin appearing on your computer.',
+  log3b: 'Meanwhile, the security cameras reveal something moving outside the house.',
+  log4: 'Someone is watching you.',
+  log5: 'When the power goes out and an intruder enters the house, your investigation becomes a fight for survival.',
+  log6: 'Can you uncover the truth before the night is over?',
+  altHouse: 'House No. 1407 in the game', capProperty: 'SUBJECT PROPERTY · NO. 1407', recLoc: 'A house in a quiet suburb', lClass: 'Classification', vClass: 'Psychological Horror<small>Cyber investigation</small>', lInvest: 'Investigation', lSurv: 'Surveillance', vUnknown: 'UNKNOWN', vActive: 'ACTIVE', recCams: '12 security cameras around the house',
+  genreH: 'What kind of game is this?', genreSub: 'The genres it belongs to',
+  g1h: 'Psychological Horror', g1p: 'Horror built on pressure, paranoia, and an atmosphere that never lets you feel safe.',
+  g2h: 'First-Person Survival', g2p: 'You play in first person: explore the house, use what you find, and find a way to survive the intruder.',
+  g3h: 'Cyber Investigation', g3p: 'Review user accounts, screen posts, analyse emails, and dig up evidence online.',
+  g4h: 'Narrative-Driven Horror', g4p: 'Driven by story, events and situations that reveal what is wrong, one part of the night at a time.',
+  altG1: 'The upstairs hallway during the blackout, the intruder at the far end', altG2: 'View from under the bed, the intruder at the wardrobe', altG3: 'The profile review screen in case 01', altG4: 'Watched from the house across the street as the car arrives',
+  gpH: 'Your night. Your investigation. Your survival.', gpSub: 'What you actually do that night',
+  f1h: 'Digital Investigation', f1p: 'Review user accounts, screen posts and analyse suspicious behaviour online.',
+  f2h: 'Computer Interaction', f2p: 'Use the computer: receive messages, read emails and search for digital evidence.',
+  f3h: 'CCTV Surveillance', f3p: 'Check the cameras around the house, watch for movement and find the suspect.',
+  f4h: 'Survival', f4p: 'Turn off the lights, find a place to hide and watch your own noise once an intruder is inside.',
+  altF1: 'Case files and posts to review in the game', altF2: 'An email with an attached photo on the in-game computer', altF3: 'CCTV CAM 1 catching someone hiding outside', altF4: 'Looking out from under the bed in the dark',
+  trLabel: '● Recorded footage', trH: 'Gameplay trailer', trSub: 'Every shot recorded in the actual game', noVideo: 'This browser cannot play the video', playLbl: '▶ Play gameplay', playTitle: 'Official gameplay trailer',
+  vnote: 'Use the full-screen button in the video controls to watch full screen · wear headphones for the score',
+  ch: ['Driving to the house', 'Someone is watching', 'Inside · investigation', 'Blackout', 'Under the bed', 'After that night'],
+  insH: 'Inspired by', insSub: 'Where the idea came from',
+  refA: 'Reference A', refB: 'Reference B', refAw: 'Horror in an ordinary home', refBw: 'Investigation through a computer screen',
+  refAl: li(['Realistic domestic horror atmosphere', 'First-person storytelling', 'Slow-building psychological tension', 'Ordinary places becoming frightening', 'Suspenseful encounters with intruders']),
+  refBl: li(['Computer-based investigation gameplay', 'Analysing digital information', 'Reviewing suspicious online activity', 'Decisions based on collected evidence', 'Tension created through computer interactions']),
+  altDesk: 'The upstairs computer desk in House No. 1407', concept: 'Our concept',
+  conceptP: 'CYBER DETECTIVE blends both into its own concept: a cyber investigation carried out from a computer screen, inside an ordinary suburban home that slowly stops feeling safe.',
+  disc: 'Fear to Fathom and Scrutinized belong to their respective owners and are named as inspirations only. There is no official affiliation or endorsement. Every image on this site is from CYBER DETECTIVE.',
+  ssH: 'Evidence board', ssSub: 'All images are from the actual game. Click to view full screen.',
+  shots: ['House No. 1407 at dusk', 'Arriving at the client’s house', 'A call from Richard', 'The note on the fridge', 'Case file 01', 'Backyard security camera', 'A figure across the street', 'An email with a photo attached', 'Messages from Richard', 'The main fuse panel', 'Inside the wardrobe', 'From under the bed', 'After that night'],
+  createdBy: 'Created by', role: 'Game Creator / Developer', crDesc: 'An independent game project exploring psychological horror, digital investigation, and the unsettling feeling of being watched.',
+  gameProject: 'Game project', creatorTh: 'Thai name', lType: 'Type', vType: 'Independent project', lBuild: 'Build',
+  fileN: 'Case file reviewed: {n} / 7 pages', fileDone: 'All 7 pages reviewed — ready to begin the investigation',
+  dlH: 'Your investigation starts <em>now.</em>', dlLead: 'Ready to uncover the truth?', dlBtn: 'Download game', dlPlay: 'Play in browser', dlHow: 'How to install', free: 'FREE',
+  lSize: 'Size', lPlayer: 'Player', vPlayer: 'Single player · offline', lLang: 'Language', vLang: 'Thai (dialogue and text)', lInstall: 'Install', vInstall: 'Unzip › open index.html',
+  dlPrep: 'Preparing the file…', dlNo: 'This view cannot download files. Open this page on claude.ai directly.', dlConfirm: 'Please confirm the download in the window that appears.', dlOk: 'Download started. Unzip it and double-click index.html to play.', dlDeclined: 'Download cancelled. Press again when you are ready.', dlBusy: 'A confirmation window is already open. Wait a moment and try again.', dlFail: 'Download failed ({e}). Please try again.', dlUnknown: 'unknown reason',
+  manH: 'Field manual', manSub: 'Everything you need to play, without story spoilers',
+  t1: 'Install', t6: 'Requirements', t2: 'Controls', t3: 'How to play', t4: 'Troubleshooting', t5: 'Credits',
+  install: steps(['Press <b>Download game</b> and confirm the download', 'Unzip the file (right-click › Extract All). Do not run it from inside the zip', 'Double-click <kbd>index.html</kbd>. It opens in Chrome or Edge — no installation, no internet needed', 'Press <b>NEW GAME</b>. Difficulty, graphics quality and microphone mode can be set first in <b>OPTIONS</b>']),
+  tip1: 'The game saves checkpoints automatically. Close it and choose <b>CONTINUE</b> from the menu to pick up where you left off.', tip2: 'Click the scene to lock the mouse. Headphones make footsteps much easier to hear. The zip includes <kbd>README_อ่านก่อน.txt</kbd> with a quick guide (in Thai).',
+  reqList: rows([['Operating system', 'Windows 10/11, macOS, Linux'], ['Browser', 'Latest Chrome or Edge'], ['Graphics', 'A WebGL-capable graphics card'], ['Memory', '4 GB RAM or more'], ['Storage', 'About 30 MB unzipped'], ['Devices', 'Mouse + keyboard · headphones (recommended) · microphone (optional)']]),
+  privH: 'Privacy', privP: 'The microphone only measures sound level on your own computer, and only while you are hiding. Nothing is recorded, stored or sent anywhere.', cwH: 'Content warning', cwP: 'Tense atmosphere, stalking, a home intrusion and jump scares. No gore or explicit violence.',
+  keys: keys([['W A S D', 'Walk'], ['Mouse', 'Look around'], ['Shift', 'Run (louder)'], ['E', 'Use / pick up / open / hide'], ['F', 'Flashlight on / off'], ['R', 'Lock / unlock door'], ['P', 'Open phone'], ['Q', 'Stand up from the computer'], ['Space', 'Hold breath (while hiding)'], ['C', 'Calibrate microphone (while hiding)'], ['Esc', 'Pause / close window'], ['↑ ↓ Enter', 'Pick a reply on the phone']]),
+  ovH: 'Overview', ovP: 'The top-left corner always shows your <b>current objective</b>, even while hiding. Look at an object: if it can be used, <kbd>[E]</kbd> appears in the centre. Messages from Richard arrive on your phone <kbd>P</kbd>.',
+  pcH: 'Work on the computer', pcP: 'Sit at the upstairs desk with <kbd>E</kbd>. Each case lists "what the detective should check" on the right. Stuck? Press <b>Hint ?</b> — wrong answers cost nothing. Switch cameras with the on-screen numbers or the arrow keys.',
+  hideH: 'Hiding', hideL: steps(['<b>Lights off first</b> — room lights and the flashlight <kbd>F</kbd>. The game will not let you hide while they are on', 'Go to the wardrobe or the foot of the bed and press <kbd>E</kbd>', 'Stay still. The "your noise" bar must stay green. When he gets close, <b>hold Space</b> to hold your breath', 'Wait until the objective says it is safe, then press <kbd>E</kbd> to come out']),
+  hideTip: 'Do not run or slam doors while he is in the house. He follows the last sound he heard.',
+  faq: faq([['Double-clicking index.html shows a black screen / never finishes loading', '<ul><li>Right-click the file › Open with › Chrome or Edge</li><li>Unzip before opening</li><li>The first load can take 10–30 seconds</li></ul>'], ['The game stutters / low frame rate', '<ul><li>OPTIONS › graphics quality › low or medium</li><li>Close other tabs using the GPU, such as videos</li><li>Laptops: plug in the charger</li></ul>'], ['The mouse escapes the game', 'Click the scene again to lock the mouse (Esc unlocks it and pauses).'], ['The microphone does not work', 'The first time you hide, the game asks whether to use the real microphone or simulated mode. If the browser denies microphone access, the game switches to simulated mode by itself — you can still finish the game.'], ['I do not know where to go next', 'Read the objective in the top-left, check the latest messages on your phone <kbd>P</kbd>, or use <b>Hint ?</b> on the computer.'], ['Can I play again after finishing?', 'Yes. The ending screen has a restart button, and there is more than one ending depending on what you uncover.']]),
+  credP: 'Created by <b>Khanchana Pudpuak (นายครรชนะ ผุดเผือก)</b>. All third-party assets use open licences; full details are in CREDITS.md inside the game.',
+  credT: tbl(['Part', 'Source', 'Licence'], [['Furniture, indoor plants, photo textures', 'Poly Haven (various creators)', 'CC0 1.0'], ['Sofa, vase', 'Khronos glTF Sample Assets', 'CC0 1.0'], ['Characters', 'Kenney — Animated Characters Retro', 'CC0 1.0'], ['3D engine', 'three.js r128, GLTFLoader, FBXLoader', 'MIT'], ['Model decoders', 'meshoptimizer decoder, fflate', 'MIT'], ['Website fonts', 'Big Shoulders Display, IBM Plex Sans Thai, IBM Plex Mono, Inter (Google Fonts)', 'SIL OFL 1.1'], ['Sound, music and video', 'Synthesised and recorded from the game by this project', 'Project-owned']]),
+  ftDesc: 'A first-person psychological horror game of cyber investigation: one night in your client’s house, and someone watching from outside.', ftExplore: 'Explore', ftPlay: 'Play', ftDl: 'Download (V9)',
+  legal1: '© 2026 Khanchana Pudpuak · CYBER DETECTIVE · Version V9', legal2: 'All stories and characters are fictional.'
+}};
+let LANG = 'th';
+try { const s = localStorage.getItem('cd-lang'); if (s === 'en' || s === 'th') LANG = s } catch (e) {}
+const t = (k, v) => { let s = (translations[LANG][k] ?? translations.th[k] ?? k); if (v) for (const x in v) s = s.replace('{' + x + '}', v[x]); return s };
+const langHooks = [];
+function applyLang(l, keepScroll) {
+  /* keep whatever is at the top of the screen in place while text lengths change */
+  let anchor = null, top0 = 0;
+  if (keepScroll) { anchor = [...document.querySelectorAll('main section, footer')].find(el => el.getBoundingClientRect().bottom > 80); if (anchor) top0 = anchor.getBoundingClientRect().top }
+  LANG = l; document.documentElement.lang = l; document.title = t('title'); const md = document.querySelector('meta[name=description]'); if (md) md.content = t('metaDesc');
+  document.querySelectorAll('[data-i]').forEach(el => { el.innerHTML = t(el.dataset.i) });
+  document.querySelectorAll('[data-ia]').forEach(el => el.dataset.ia.split(';').forEach(p => { const [a, k] = p.split(':'); el.setAttribute(a, t(k)) }));
+  document.querySelectorAll('.lang button').forEach(b => { const on = b.dataset.lang === l; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on) });
+  langHooks.forEach(f => f());
+  if (anchor) window.scrollBy(0, anchor.getBoundingClientRect().top - top0);
+  try { localStorage.setItem('cd-lang', l) } catch (e) {} }
+
+/* ================= page behaviour ================= */
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE = matchMedia('(hover:hover) and (pointer:fine)').matches;
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const pad = n => String(n).padStart(2, '0');
+
+/* surveillance boot loader */
+(function () { const bar = $('#ldbar'), clk = $('#ldclock'); let k = 0;
+  const done = () => { $('#loader').classList.add('done'); document.body.classList.add('ready'); const v = $('#heroVid'); if (!RM && v) { const p = v.play(); if (p) p.catch(() => {}) } };
+  if (RM) { setTimeout(done, 0); return }
+  const iv = setInterval(() => { const items = $$('#ldlist li'); if (k < items.length) items[k].classList.add('on'); k++; bar.style.width = Math.min(100, k * 25) + '%'; clk.textContent = '00:00:' + pad(k * 3);
+    if (k >= 4) { clearInterval(iv); setTimeout(done, 320) } }, 300) })();
+
+function noiseTo(c, size, alpha) { if (!c) return; c.width = c.height = size; const g = c.getContext('2d'), im = g.createImageData(size, size);
+  for (let i = 0; i < im.data.length; i += 4) { const v = Math.random() * 255 | 0; im.data[i] = im.data[i + 1] = im.data[i + 2] = v; im.data[i + 3] = alpha } g.putImageData(im, 0, 0) }
+noiseTo($('#grain'), 512, 255); noiseTo($('#static'), 256, 255);
+
+const t0 = Date.now(), tsBase = 2 * 60 + 2;
+function clocks() { const s = Math.floor((Date.now() - t0) / 1000), a = tsBase + s; $('#navclock').textContent = 'REC ' + pad(s / 3600 | 0) + ':' + pad((s / 60 | 0) % 60) + ':' + pad(s % 60);
+  $('#ts').textContent = pad(a / 3600 | 0) + ':' + pad((a / 60 | 0) % 60) + ':' + pad(a % 60) }
+clocks(); setInterval(clocks, 1000);
+
+/* nav */
+const nav = $('#nav'), burger = $('#burger');
+const onScroll = () => nav.classList.toggle('solid', scrollY > 40); addEventListener('scroll', onScroll, { passive: true }); onScroll();
+function setMenu(o) { nav.classList.toggle('open', o); burger.setAttribute('aria-expanded', String(o)); burger.setAttribute('aria-label', t(o ? 'aMenuClose' : 'aMenu')); document.body.style.overflow = o ? 'hidden' : '' }
+function go(id, tab) { const el = document.getElementById(id); if (!el) return; setMenu(false); if (tab) openTab(tab);
+  el.scrollIntoView({ behavior: RM ? 'auto' : 'smooth' }); try { history.replaceState(null, '', '#' + id) } catch (e) {} }
+$$('[data-to]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(a.dataset.to, a.dataset.tab) }));
+burger.addEventListener('click', () => setMenu(!nav.classList.contains('open')));
+$$('.lang button').forEach(b => b.addEventListener('click', () => { if (b.dataset.lang !== LANG) applyLang(b.dataset.lang, true) }));
+const secs = ['home', 'story', 'genre', 'gameplay', 'inspiration', 'screenshots', 'creator', 'download'].map(id => document.getElementById(id));
+const spy = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) $$('.links a').forEach(a => a.classList.toggle('on', a.dataset.to === e.target.id)) }), { rootMargin: '-45% 0px -50% 0px' });
+secs.forEach(s => spy.observe(s));
+addEventListener('load', () => { const h = location.hash.slice(1); if (h && document.getElementById(h) && h !== 'home') setTimeout(() => go(h), 400) });
+
+/* reveals */
+const rvo = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rvo.unobserve(e.target) } }), { threshold: .14 });
+$$('.rv').forEach(el => rvo.observe(el));
+const mko = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll(':scope > .mask').forEach(m => m.classList.add('in')); mko.unobserve(e.target) } }), { threshold: .1 });
+new Set($$('.mask').map(m => m.parentElement)).forEach(el => mko.observe(el));
+
+/* fit display titles to their column */
+function fit() { $$('[data-fit]').forEach(el => { el.style.fontSize = ''; const max = parseFloat(getComputedStyle(el).fontSize), w = el.parentElement.clientWidth; let widest = 0;
+  el.querySelectorAll('span').forEach(sp => { sp.style.display = 'inline-block'; widest = Math.max(widest, sp.getBoundingClientRect().width); sp.style.display = '' });
+  if (widest > w) el.style.fontSize = Math.floor(max * w / widest * .98) + 'px' }) }
+addEventListener('resize', fit); if (document.fonts) document.fonts.ready.then(fit);
+
+const par = $$('[data-par]');
+if (!RM) { let tk = 0; const run = () => { tk = 0; const vh = innerHeight; for (const el of par) { const r = el.getBoundingClientRect(); if (r.bottom < -200 || r.top > vh + 200) continue; el.style.transform = 'translate3d(0,' + ((r.top + r.height / 2 - vh / 2) * +el.dataset.par).toFixed(1) + 'px,0)' } };
+  addEventListener('scroll', () => { if (!tk) { tk = 1; requestAnimationFrame(run) } }, { passive: true }); run() }
+
+const hv = $('#heroVid'); if (hv && !RM) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { const p = hv.play(); if (p) p.catch(() => {}) } else hv.pause() })).observe(hv);
+
+/* CCTV monitor */
+const CAMS = [['CAM 01', 'camLoc1', 0], ['CAM 06', 'camLoc', 0], ['CAM 08', 'camLoc', 0], ['CAM 09', 'camLoc', 1]];
+const cctv = $('#cctv'), feeds = $$('#feed img'), chw = $('#ch'); let ci = 0, cT = null;
+CAMS.forEach(([n], i) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = n.replace('CAM ', ''); b.setAttribute('role', 'tab'); b.setAttribute('aria-label', n); b.addEventListener('click', () => { cam(i); armCam() }); chw.appendChild(b) });
+function camText() { const [n, loc, mot] = CAMS[ci]; $('#osd').innerHTML = n + '<small>' + t(loc) + '</small>'; $('#secTxt').textContent = t(mot ? 'stMotion' : 'stWatch'); $('#secSt').classList.toggle('warn', !!mot) }
+function cam(i) { ci = (i + CAMS.length) % CAMS.length; cctv.classList.add('switching');
+  setTimeout(() => { feeds.forEach((f, k) => f.classList.toggle('on', k === ci)); $('#chName').textContent = CAMS[ci][0]; $('#mot').classList.toggle('on', !!CAMS[ci][2]); camText();
+    [...chw.children].forEach((b, k) => { b.classList.toggle('on', k === ci); b.setAttribute('aria-selected', k === ci) }) }, RM ? 0 : 180);
+  setTimeout(() => cctv.classList.remove('switching'), RM ? 0 : 420) }
+function armCam() { clearInterval(cT); if (!RM) cT = setInterval(() => { if (!document.hidden) cam(ci + 1) }, 6500) }
+langHooks.push(camText);
+function trouble() { if (RM || document.hidden) return; const r = Math.random();
+  if (r < .45) { cctv.classList.add('glitch'); setTimeout(() => cctv.classList.remove('glitch'), 160 + Math.random() * 200) }
+  else if (r < .65) { $('#rc').classList.add('lost'); $('#rcTxt').textContent = 'SIGNAL LOST'; cctv.classList.add('weak', 'switching'); setTimeout(() => { $('#rc').classList.remove('lost'); $('#rcTxt').textContent = 'REC'; cctv.classList.remove('weak', 'switching') }, 900) }
+  else if (r < .85) { const w = $('#wm'); if (w) { w.classList.add('glitch'); setTimeout(() => w.classList.remove('glitch'), 140) } }
+  else { const s = $('#sig'); s.classList.remove('on'); void s.offsetWidth; s.classList.add('on') } }
+if (!RM) (function loop() { setTimeout(() => { trouble(); loop() }, 5000 + Math.random() * 7000) })();
+
+/* case record: status values type themselves in */
+let typedOnce = false;
+function typeAll(anim) { $$('.record .tw').forEach(el => { const s = t(el.dataset.twk); clearInterval(el._iv); if (!anim || RM) { el.textContent = s; return } let k = 0; el.textContent = ''; el._iv = setInterval(() => { el.textContent = s.slice(0, ++k); if (k >= s.length) clearInterval(el._iv) }, 70) }) }
+new IntersectionObserver((es, o) => es.forEach(e => { if (e.isIntersecting) { typedOnce = true; setTimeout(() => typeAll(true), 500); o.disconnect() } }), { threshold: .3 }).observe($('.record'));
+langHooks.push(() => { if (typedOnce) typeAll(false) });
+
+/* case-file progress */
+const PAGES = ['story', 'genre', 'gameplay', 'inspiration', 'screenshots', 'creator', 'download'], seen = new Set();
+function progress() { const n = seen.size; $('#progTxt').textContent = n + ' / ' + PAGES.length; $('#progBar').style.width = (n / PAGES.length * 100) + '%';
+  const f = $('#fileState'); f.classList.toggle('done', n === PAGES.length); f.querySelector('span').textContent = n === PAGES.length ? t('fileDone') : t('fileN', { n }) }
+const po = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { seen.add(e.target.id); progress() } }), { threshold: .2 });
+PAGES.forEach(id => po.observe(document.getElementById(id)));
+langHooks.push(progress);
+addEventListener('scroll', () => $('#prog').classList.toggle('on', scrollY > innerHeight * .7), { passive: true });
+
+/* cursor reticle over media */
+const cur = $('#cur'); let curEl = null;
+if (FINE && !RM) { addEventListener('mousemove', e => { cur.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px) scale(' + (cur.classList.contains('on') ? 1 : .6) + ')' }, { passive: true });
+  $$('[data-cursor]').forEach(el => { el.addEventListener('mouseenter', () => { curEl = el; cur.textContent = t(el.dataset.cursor); cur.classList.add('on') }); el.addEventListener('mouseleave', () => { curEl = null; cur.classList.remove('on') }) }) }
+langHooks.push(() => { if (curEl) cur.textContent = t(curEl.dataset.cursor) });
+
+/* gameplay trailer */
+const tr = $('#trailer'), player = $('#player'), cover = $('#cover');
+const CHT = [2.3, 11.1, 17.3, 30.1, 39.7, 50.7];
+function playTrailer(at) { player.classList.add('playing'); if (at != null) { try { tr.currentTime = at } catch (e) {} } const p = tr.play(); if (p) p.catch(() => {}); tr.focus() }
+cover.addEventListener('click', () => { cur.classList.remove('on'); playTrailer() });
+tr.addEventListener('play', () => player.classList.add('playing'));
+tr.addEventListener('loadedmetadata', () => { if (isFinite(tr.duration)) { const s = Math.round(tr.duration); $('#dur').textContent = pad(s / 60 | 0) + ':' + pad(s % 60) } });
+const chs = $('#chapters'); CHT.forEach(tt => { const b = document.createElement('button'); b.type = 'button'; b.innerHTML = '<span>' + pad(tt / 60 | 0) + ':' + pad(Math.floor(tt % 60)) + '</span><b></b>'; b.addEventListener('click', () => playTrailer(tt)); chs.appendChild(b) });
+function chText() { [...chs.children].forEach((b, i) => b.querySelector('b').textContent = t('ch')[i]) }
+langHooks.push(chText);
+tr.addEventListener('timeupdate', () => { const x = tr.currentTime; let k = 0; CHT.forEach((s, i) => { if (x >= s) k = i }); [...chs.children].forEach((b, i) => b.classList.toggle('on', i === k)) });
+$('#watchBtn').addEventListener('click', e => { e.preventDefault(); go('gameplay'); setTimeout(() => playTrailer(), RM ? 0 : 700) });
+
+/* gallery */
+const SH = [['hero', 'EXTERIOR'], ['street', 'ARRIVAL'], ['car', 'INTRO'], ['note', 'EVIDENCE'], ['pc', 'FORENSICS'], ['cctv', 'CCTV'], ['lurk', 'CAM 01'], ['gp_mail', 'INBOX'], ['gp_phone', 'PHONE'], ['gp_wires', 'POWER'], ['ward', 'HIDE'], ['bed', 'HIDE'], ['end', 'EPILOGUE']];
+const cap = i => t('shots')[i];
+const gtrack = $('#gtrack'), gdots = $('#gdots'), gth = $('#gthumbs'), gal = $('#gal'); let gi = 0, gT = null;
+SH.forEach(([k, tag], i) => {
+  const s = document.createElement('button'); s.type = 'button'; s.className = 'gslide';
+  s.innerHTML = '<img src="shots/' + k + '.jpg" alt=""' + (i ? ' loading="lazy"' : '') + '><span class="gcap"><span class="label g">' + pad(i + 1) + ' / ' + tag + '</span><b></b></span>';
+  s.addEventListener('click', () => openLb(i)); gtrack.appendChild(s);
+  const d = document.createElement('button'); d.type = 'button'; d.setAttribute('role', 'tab'); d.innerHTML = '<i></i>'; d.addEventListener('click', () => gshow(i, 1)); gdots.appendChild(d);
+  const th = document.createElement('button'); th.type = 'button'; th.innerHTML = '<img src="shots/' + k + '.jpg" alt="" loading="lazy">'; th.addEventListener('click', () => gshow(i, 1)); gth.appendChild(th) });
+function galText() { SH.forEach((_, i) => { const s = gtrack.children[i]; s.querySelector('b').textContent = cap(i); s.querySelector('img').alt = cap(i); s.setAttribute('aria-label', t('aView', { x: cap(i) })); gdots.children[i].setAttribute('aria-label', t('aShot', { n: i + 1 })); gth.children[i].setAttribute('aria-label', cap(i)) }); if (lb.classList.contains('on')) lbText() }
+function gshow(i, user) { const prev = gi; gi = (i + SH.length) % SH.length; [...gtrack.children].forEach((s, k) => { s.classList.toggle('on', k === gi); s.classList.toggle('was', k === prev && k !== gi) });
+  [...gdots.children].forEach((d, k) => { d.classList.toggle('on', k === gi); d.setAttribute('aria-selected', k === gi); const n = d.firstChild; d.replaceChild(n.cloneNode(), n) });
+  [...gth.children].forEach((x, k) => x.classList.toggle('on', k === gi)); $('#gcount').textContent = pad(gi + 1) + ' / ' + pad(SH.length); if (user) arm() }
+function arm() { clearInterval(gT); if (!RM) gT = setInterval(() => { if (!gal.classList.contains('paused')) gshow(gi + 1) }, 6000) }
+$('#gprev').addEventListener('click', () => gshow(gi - 1, 1)); $('#gnext').addEventListener('click', () => gshow(gi + 1, 1));
+gal.addEventListener('mouseenter', () => gal.classList.add('paused')); gal.addEventListener('mouseleave', () => gal.classList.remove('paused'));
+new IntersectionObserver(es => es.forEach(e => gal.classList.toggle('paused', !e.isIntersecting))).observe(gal);
+const lb = $('#lb'); let li2 = 0;
+function lbText() { lb.querySelector('img').alt = cap(li2); lb.querySelector('.c').innerHTML = '<span>' + pad(li2 + 1) + ' / ' + SH.length + '</span>' + cap(li2) }
+function openLb(i) { li2 = (i + SH.length) % SH.length; lb.querySelector('img').src = 'shots/' + SH[li2][0] + '.jpg'; lbText(); lb.classList.add('on'); cur.classList.remove('on'); lb.querySelector('.x').focus() }
+function closeLb() { lb.classList.remove('on'); gshow(li2, 1) }
+lb.querySelector('.x').addEventListener('click', closeLb); lb.querySelector('.p').addEventListener('click', () => openLb(li2 - 1)); lb.querySelector('.n').addEventListener('click', () => openLb(li2 + 1));
+lb.addEventListener('click', e => { if (e.target === lb) closeLb() });
+addEventListener('keydown', e => { if (lb.classList.contains('on')) { if (e.key === 'Escape') closeLb(); if (e.key === 'ArrowLeft') openLb(li2 - 1); if (e.key === 'ArrowRight') openLb(li2 + 1) }
+  else if (document.activeElement && gal.contains(document.activeElement)) { if (e.key === 'ArrowLeft') gshow(gi - 1, 1); if (e.key === 'ArrowRight') gshow(gi + 1, 1) }
+  if (e.key === 'Escape' && nav.classList.contains('open')) setMenu(false) });
+langHooks.push(galText);
+
+/* manual tabs (keeps the open FAQ items when the language changes) */
+function openTab(id) { $$('.mtabs button').forEach(b => { const on = b.dataset.p === id; b.classList.toggle('on', on); b.setAttribute('aria-selected', on) }); $$('.mpane').forEach(p => p.classList.toggle('on', p.id === id)) }
+$$('.mtabs button').forEach(b => b.addEventListener('click', () => openTab(b.dataset.p)));
+
+/* download: same file and same platform save flow as before; the last message is re-translated */
+const dlBtn = $('#dlBtn'), dlMsg = $('#dlMsg'); let lastMsg = null;
+let dl = null; const dlReady = (window.claude && claude.use) ? claude.use('downloads').then(d => dl = d).catch(() => null) : Promise.resolve(null);
+function msg(k, c, v) { lastMsg = [k, c, v]; dlMsg.textContent = t(k, v); dlMsg.className = 'dlmsg' + (c ? ' ' + c : '') }
+langHooks.push(() => { if (lastMsg) msg(...lastMsg) });
+dlBtn.addEventListener('click', async () => {
+  dlBtn.disabled = true; msg('dlPrep');
+  try {
+    await dlReady;
+    if (!dl) { const a = document.createElement('a'); a.href = 'cyber-detective-v9.zip'; a.download = 'cyber-detective-v9.zip'; document.body.appendChild(a); a.click(); a.remove(); msg('dlOk', 'ok'); return }
+    const r = await fetch('cyber-detective.zip.b64.txt'); if (!r.ok) throw new Error('fetch ' + r.status);
+    const b64 = (await r.text()).trim(), bin = atob(b64), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+    const blob = new Blob([u8], { type: 'application/zip' }); msg('dlConfirm');
+    await dl.save({ filename: 'cyber-detective-v9.zip', data: blob });
+    msg('dlOk', 'ok');
+  } catch (e) {
+    const c = e && e.code;
+    if (c === 'declined') msg('dlDeclined');
+    else if (c === 'rate_limited') msg('dlBusy', 'err');
+    else msg('dlFail', 'err', { e: c || e.message || t('dlUnknown') });
+  } finally { dlBtn.disabled = false }
+});
+
+/* first paint in the saved (or default Thai) language, then start the interactive parts */
+applyLang(LANG, false); cam(0); armCam(); gtrack.children[0].classList.add('on'); gshow(0); arm(); fit();
+</script>
+</body>
+
+</html>
